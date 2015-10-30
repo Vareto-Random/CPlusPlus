@@ -8,6 +8,10 @@
 
 #include <iostream>
 
+#include "Puzzle.hpp"
+
 int main(int argc, const char * argv[]) {
+    Puzzle game = Puzzle(argv[1]);
+    
     return 0;
 }

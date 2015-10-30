@@ -17,13 +17,17 @@ class Puzzle {
 public:
     Puzzle();
     Puzzle(int _size);
-    Puzzle(int **_matrix);
     Puzzle(int _size, int **_matrix);
+    ~Puzzle();
     
     bool readFile(string _fileName);
     bool solve();
     
 private:
+    bool allocate(int _size);
+    bool allocate(int _size, int **_matrix);
+    void copyMatrix(int _size, int **_matrix);
+    
     bool ready;
     int size;
     int **matrix;

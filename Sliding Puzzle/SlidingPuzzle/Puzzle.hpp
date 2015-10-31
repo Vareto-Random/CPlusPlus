@@ -25,7 +25,8 @@ public:
     Puzzle(const int _size, const int **_matrix);
     
     ~Puzzle();
-    
+
+    bool populate(const vector<string> &_rawFile);
     bool readFile(const string _fileName);
     bool solve();
     
@@ -33,12 +34,14 @@ private:
     bool allocate(const int _size);
     bool allocate(const int _size, const int **_matrix);
     bool copy(const int _size, const int **_matrix);
-    bool populate(const vector<string> &_rawFile);
+    bool initialize();
+    int getNeighbors();
     
     bool ready;
     int size;
     int **matrix;
-    vector<string> rawFile;
+    int **goal;
+    vector<string> rawMatrix;
 };
 
 #endif /* Puzzle_hpp */

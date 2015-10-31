@@ -104,6 +104,7 @@ bool Puzzle::solve() {
     return true;
 }
 
+
 /*
  * Private Methods
  */
@@ -117,14 +118,14 @@ bool Puzzle::allocate(const int _size) {
         return false;
     }
     
-    this->goal = new int*[this->size];
-    this->matrix = new int*[this->size];
+    this->goal = new int* [this->size];
+    this->matrix = new int* [this->size];
     this->size = _size;
     this->ready = false;
     
     for (int index = 0; index < this->size; index++) {
-        this->goal[index] = new int[this->size];
-        this->matrix[index] = new int[this->size];
+        this->goal[index] = new int [this->size];
+        this->matrix[index] = new int [this->size];
     }
     
     return true;
@@ -162,4 +163,54 @@ bool Puzzle::initialize(){
     this->ready = false;
     this->size = 0;
     return true;
+}
+
+
+vector<int> Puzzle::getMoves(const int x, const int y) {
+    vector<int> moves;
+    
+    if ((x > 0) and (x < this->size)) {
+        moves.push_back(UP);
+    }
+    if ((y >= 0) and (y < this->size - 1)) {
+        moves.push_back(RIGHT);
+    }
+    if ((x >= 0) and (x < this->size - 1)) {
+        moves.push_back(DOWN);
+    }
+    if ((y > 0) and (y < this->size)) {
+        moves.push_back(LEFT);
+    }
+    
+    return moves;
+}
+
+
+vector< pair<int **, int> > Puzzle::getNeighbors(int (*heuristic)(int **_matrix), const int x, const int y) {
+    vector< pair<int **, int> > neighbors;
+    vector<int> moves = this->getMoves(x, y);
+    heuristic(this->matrix);
+    
+    return neighbors;
+}
+
+
+bool Puzzle::swap(const int x, const int y, const int move) {
+    
+    return false;
+}
+
+
+int Puzzle::heuristicA(const int **_matrix) {
+    return 0;
+}
+
+
+int Puzzle::heuristicB(const int **_matrix) {
+    return 0;
+}
+
+
+int Puzzle::heuristicC(const int **_matrix) {
+    return 0;
 }

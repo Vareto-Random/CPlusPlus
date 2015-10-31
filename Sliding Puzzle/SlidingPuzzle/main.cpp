@@ -12,6 +12,11 @@
 
 int main(int argc, const char * argv[]) {
     Puzzle game = Puzzle(argv[1]);
+//    for (int row = 0; row < game.size; row++) {
+//        for (int column = 0; column < game.size; column++) {
+//            game.getMoves(row, column);
+//        }
+//    }
     
     return 0;
 }

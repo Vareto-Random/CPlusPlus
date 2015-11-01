@@ -12,20 +12,29 @@
  * Public Methods
  */
 
+State::State() {
+    this->initialize();
+}
+
+
 State::State(State &_state) {
-    (*this) = _state;
+    this->initialize();
+    
+    this->allocate(_state.getSize());
+    this->copy(_state.getBoard());
+    this->cost = _state.getCost();
+    this->size = _state.getSize();
 }
 
 
 State::State(int _size) {
-    this->cost = 0;
-    this->size = _size;
+    this->initialize();
     
-    this->allocate(this->size);
+    this->allocate(_size);
     
     int index = 0;
-    for (int row = 0; row < this->size; row++) {
-        for (int col = 0; col < this->size; col++) {
+    for (int row = 0; row < _size; row++) {
+        for (int col = 0; col < _size; col++) {
             this->board[row][col] = index;
             index++;
         }
@@ -35,10 +44,9 @@ State::State(int _size) {
 
 
 State::State(int _size, const vector<string> _board) {
-    this->cost = 0;
-    this->size = _size;
+    this->initialize();
     
-    this->allocate(this->size);
+    this->allocate(_size);
     
     int index = 0;
     for (int row = 0; row < this->size; row++) {
@@ -55,10 +63,7 @@ State::State(int _size, const vector<string> _board) {
 
 
 State::~State() {
-    for (int index = 0; index < this->size; index++) {
-        delete [] this->board[index];
-    }
-    delete [] this->board;
+    this->deallocate();
 }
 
 pair<int, int> State::findBlank() {
@@ -117,8 +122,16 @@ bool State::setCost(int _cost) {
 }
 
 
-State State::operator=(State &_state) {
-    if ((this != &_state) and (this->size == _state.getSize())) {
+State& State::operator=(State &_state) {
+    if (this != &_state) {
+        if (this->size != _state.getSize()) {
+            this->deallocate();
+        }
+        
+        if (this->board == NULL) {
+            this->allocate(_state.getSize());
+        }
+        
         this->cost = _state.getCost();
         this->size = _state.getSize();
         for (int row = 0; row < this->size; row++) {
@@ -175,14 +188,50 @@ void State::toString() {
  */
 
 bool State::allocate(int _size) {
-    if (_size <= 0) {
+    if ((_size <= 0) or (this->board != NULL)) {
         return false;
     }
     
-    this->board = new int* [this->size];
-    for (int index = 0; index < this->size; index++) {
-        this->board[index] = new int [this->size];
+    this->board = new int* [_size];
+    this->size = _size;
+    for (int index = 0; index < _size; index++) {
+        this->board[index] = new int [_size];
     }
+    
+    return true;
+}
+
+bool State::copy(int **_board) {
+    for (int row = 0; row < this->size; row++) {
+        for (int col = 0; col < this->size; col++) {
+            this->board[row][col] = _board[row][col];
+        }
+    }
+    
+    return true;
+}
+
+bool State::deallocate() {
+    if (this->board != NULL) {
+        for (int index = 0; index < this->size; index++) {
+            if(this->board[index] != NULL) {
+                delete [] this->board[index];
+                this->board[index] = NULL;
+            }
+        }
+    
+        delete [] this->board;
+        this->board = NULL;
+    }
+    
+    return true;
+}
+
+
+bool State::initialize() {
+    this->cost = 0;
+    this->board = NULL;
+    this->size = 0;
     
     return true;
 }

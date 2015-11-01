@@ -18,8 +18,6 @@ Game::Game(string _fileName) {
     this->current = new State(this->size, this->rawInput);
     this->goal = new State(this->size);
     this->start = new State(this->size, this->rawInput);
-    
-    this->current->swap(DOWN);
 }
 
 
@@ -37,12 +35,15 @@ Game::~Game() {
     delete this->current;
     delete this->goal;
     delete this->start;
+    
+    for (int index = 0; index < temporary.size(); index++) {
+        delete temporary[index];
+    }
 }
 
 
 State Game::getCurrent() {
-    State temporary = *this->current;
-    return temporary;
+    return *this->current;
 }
 
 
@@ -86,7 +87,6 @@ bool Game::solve() {
 
 vector<int> Game::getMoves(const int x, const int y) {
     vector<int> moves;
-    vector<string> movement;
     
     if ((x > 0) and (x < this->size)) {
         moves.push_back(UP);
@@ -102,4 +102,22 @@ vector<int> Game::getMoves(const int x, const int y) {
     }
     
     return moves;
+}
+
+vector<State> Game::getNeighbors(int (*heuristic)(int **), const int x, const int y) {
+    vector<State> neighbors;
+    
+    return neighbors;
+}
+
+int Game::heuristicA(const int **_matrix) {
+    return 0;
+}
+
+int Game::heuristicB(const int **_matrix) {
+    return 0;
+}
+
+int Game::heuristicC(const int **_matrix) {
+    return 0;
 }

@@ -12,12 +12,16 @@
 
 int main(int argc, const char * argv[]) {
     Game puzzle = Game(argv[1]);
-    vector <int> temp;
-    for (int row = 0; row < puzzle.size; row++) {
-        for (int col = 0; col < puzzle.size; col++) {
-            temp = puzzle.getMoves(row, col);
-        }
-    }
+//    puzzle.getCurrent().toString();
+//    puzzle.solve();
+//    puzzle.getCurrent().toString();
+
+//    vector <int> temp;
+//    for (int row = 0; row < puzzle.size; row++) {
+//        for (int col = 0; col < puzzle.size; col++) {
+//            temp = puzzle.getMoves(row, col);
+//        }
+//    }
     
     return 0;
 }

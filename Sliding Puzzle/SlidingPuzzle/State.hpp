@@ -29,6 +29,7 @@ using namespace std;
 
 class State {
 public:
+    State();
     State(State &_state);
     State(const int _size);
     State(const int _size, const vector<string> _board);
@@ -46,13 +47,16 @@ public:
     bool setBoard(const int _size, const int **_board);
     bool setCost(int _cost);
 
-    State operator=(State &_state);
+    State& operator=(State &_state);
     State swap(const int move);
 
     void toString();
     
 private:
     bool allocate(int _size);
+    bool copy(int **_board);
+    bool deallocate();
+    bool initialize();
     
     int** board;
     unsigned int cost;

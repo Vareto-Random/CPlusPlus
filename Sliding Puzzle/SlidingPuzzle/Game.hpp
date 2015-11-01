@@ -35,7 +35,7 @@ public:
     bool readFile(string _fileName);
     bool solve();
     
-//private:
+private:
     vector<int> getMoves(const int x, const int y);
     vector<State> getNeighbors(int (*heuristic)(int **),const int x, const int y);
     

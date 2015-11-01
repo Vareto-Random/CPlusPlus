@@ -17,7 +17,7 @@ State::State(State &_state) {
 }
 
 
-State::State(unsigned int _size) {
+State::State(int _size) {
     this->cost = 0;
     this->size = _size;
     
@@ -34,7 +34,7 @@ State::State(unsigned int _size) {
 }
 
 
-State::State(unsigned int _size, const vector<string> _board) {
+State::State(int _size, const vector<string> _board) {
     this->cost = 0;
     this->size = _size;
     
@@ -81,22 +81,22 @@ int ** State::getBoard() {
 }
 
 
-unsigned int State::getCost() {
+int State::getCost() {
     return this->cost;
 }
 
 
-int State::getElement(unsigned int row, unsigned int col) {
+int State::getElement(int row, int col) {
     return this->board[row][col];
 }
 
 
-unsigned int State::getSize() {
+int State::getSize() {
     return this->size;
 }
 
 
-bool State::setBoard(const unsigned int _size, const int **_board) {
+bool State::setBoard(const int _size, const int **_board) {
     if(this->size != _size) {
         return false;
     }
@@ -111,7 +111,7 @@ bool State::setBoard(const unsigned int _size, const int **_board) {
 }
 
 
-bool State::setCost(unsigned int _cost) {
+bool State::setCost(int _cost) {
     this->cost = _cost;
     return true;
 }
@@ -131,6 +131,34 @@ State State::operator=(State &_state) {
     return (*this);
 }
 
+State State::swap(const int move) {
+    State state = *(this);
+    int **matrix = state.getBoard();
+    pair<int, int> pos = this->findBlank();
+    
+    switch (move) {
+        case UP:
+            matrix[pos.first][pos.second] = matrix[pos.first-1][pos.second];
+            matrix[pos.first-1][pos.second] = BLANK;
+            break;
+        case DOWN:
+            matrix[pos.first][pos.second] = matrix[pos.first+1][pos.second];
+            matrix[pos.first+1][pos.second] = BLANK;
+            break;
+        case RIGHT:
+            matrix[pos.first][pos.second] = matrix[pos.first][pos.second+1];
+            matrix[pos.first][pos.second+1] = BLANK;
+            break;
+        case LEFT:
+            matrix[pos.first][pos.second] = matrix[pos.first][pos.second-1];
+            matrix[pos.first][pos.second-1] = BLANK;
+            break;
+    }
+    this->toString();
+    state.toString();
+    return state;
+}
+
 
 void State::toString() {
     cout << "Size: " << this->size << "\n";
@@ -146,7 +174,7 @@ void State::toString() {
  * Private Methods
  */
 
-bool State::allocate(unsigned int _size) {
+bool State::allocate(int _size) {
     if (_size <= 0) {
         return false;
     }

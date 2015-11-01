@@ -9,16 +9,6 @@
 #ifndef Game_hpp
 #define Game_hpp
 
-#define UP      1
-#define RIGHT   2
-#define DOWN    3
-#define LEFT    4
-
-#define NORTH   "acima"
-#define EAST    "direita"
-#define SOUTH   "abaixo"
-#define WEST    "esquerda"
-
 #define ASCENDING(a,b) (a.getCost() < b.getCost ? a : b)
 #define DESCENDING(a,b) (a.getCost() < b.getCost ? b : a)
 

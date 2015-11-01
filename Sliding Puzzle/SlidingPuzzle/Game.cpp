@@ -18,6 +18,8 @@ Game::Game(string _fileName) {
     this->current = new State(this->size, this->rawInput);
     this->goal = new State(this->size);
     this->start = new State(this->size, this->rawInput);
+    
+    this->current->swap(DOWN);
 }
 
 
@@ -39,7 +41,8 @@ Game::~Game() {
 
 
 State Game::getCurrent() {
-    return *this->current;
+    State temporary = *this->current;
+    return temporary;
 }
 
 

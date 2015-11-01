@@ -25,29 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SlidingPuzzle/Game.cpp"
-            timestampString = "468033038.716642"
+            filePath = "SlidingPuzzle/State.cpp"
+            timestampString = "468037933.413958"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
-            landmarkName = "Game::Game(string _fileName)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SlidingPuzzle/Game.cpp"
-            timestampString = "468034435.98105"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "Game::getCurrent()"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "State::swap(const int move)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

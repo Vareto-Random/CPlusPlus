@@ -8,13 +8,13 @@
 
 #include <iostream>
 
-#include "Puzzle.hpp"
+#include "Game.hpp"
 
 int main(int argc, const char * argv[]) {
-    Puzzle game = Puzzle(argv[1]);
-//    for (int row = 0; row < game.size; row++) {
-//        for (int column = 0; column < game.size; column++) {
-//            game.getMoves(row, column);
+    Game puzzle = Game(argv[1]);
+//    for (int row = 0; row < puzzle.size; row++) {
+//        for (int col = 0; col < puzzle.size; col++) {
+//            puzzle.getMoves(row, col);
 //        }
 //    }
     

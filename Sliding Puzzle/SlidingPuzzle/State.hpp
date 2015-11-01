@@ -9,30 +9,36 @@
 #ifndef State_hpp
 #define State_hpp
 
-#define SIZE 3
+#define BLANK -1234
 
 #include <array>
-#include <stdio.h>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
 class State {
 public:
-    State();
-    State(unsigned int _size);
-    State(unsigned int _size, int **_board);
+    State(State &_state);
+    State(const unsigned int _size);
+    State(const unsigned int _size, const vector<string> _board);
     
     ~State();
     
+    pair<int, int> findBlank();
+    
     int ** getBoard();
     unsigned int getCost();
-    inline int getElement(unsigned int row, unsigned int col);
+    int getElement(const unsigned int row, const unsigned int col);
     unsigned int getSize();
-
-    bool setBoard(unsigned int _size, int **_board);
-    bool setCost(unsigned int _cost);
+    static State getSolution();
     
+    bool setBoard(const unsigned int _size, const int **_board);
+    bool setCost(unsigned int _cost);
+
     State operator=(State &_state);
+
+    void toString();
     
 private:
     bool allocate(unsigned int _size);

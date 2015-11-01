@@ -13,9 +13,9 @@
             timestampString = "467993870.442181"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "Puzzle::~Puzzle()"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "Puzzle::Puzzle(const string _fileName)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SlidingPuzzle/Puzzle.cpp"
-            timestampString = "467993870.442181"
+            filePath = "SlidingPuzzle/Game.cpp"
+            timestampString = "468033038.716642"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "Puzzle::Puzzle(const string _fileName)"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "Game::Game(string _fileName)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SlidingPuzzle/Game.cpp"
+            timestampString = "468034435.98105"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "Game::getCurrent()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

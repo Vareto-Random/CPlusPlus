@@ -9,7 +9,7 @@
 #ifndef Puzzle_hpp
 #define Puzzle_hpp
 
-#define BLANK   -12345
+//#define BLANK   -12345
 
 #define UP      1
 #define RIGHT   2

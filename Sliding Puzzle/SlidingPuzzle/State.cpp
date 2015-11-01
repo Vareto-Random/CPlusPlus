@@ -12,25 +12,43 @@
  * Public Methods
  */
 
-State::State() {
-    this->size = SIZE;
-    this->allocate(this->size);
+State::State(State &_state) {
+    (*this) = _state;
 }
 
 
 State::State(unsigned int _size) {
+    this->cost = 0;
     this->size = _size;
+    
     this->allocate(this->size);
+    
+    int index = 0;
+    for (int row = 0; row < this->size; row++) {
+        for (int col = 0; col < this->size; col++) {
+            this->board[row][col] = index;
+            index++;
+        }
+    }
+    this->board[0][0] = BLANK;
 }
 
 
-State::State(unsigned int _size, int **_board) {
+State::State(unsigned int _size, const vector<string> _board) {
+    this->cost = 0;
     this->size = _size;
+    
     this->allocate(this->size);
     
+    int index = 0;
     for (int row = 0; row < this->size; row++) {
-        for (int column = 0; column < this->size; column++) {
-            this->board[row][column] = _board[row][column];
+        for (int col = 0; col < this->size; col++) {
+            try {
+                this->board[row][col] = stoi(_board[index]);
+            } catch (invalid_argument exception) {
+                this->board[row][col] = BLANK;
+            }
+            index++;
         }
     }
 }
@@ -41,6 +59,20 @@ State::~State() {
         delete [] this->board[index];
     }
     delete [] this->board;
+}
+
+pair<int, int> State::findBlank() {
+    pair<int, int> position;
+    
+    for (int row = 0; row < this->size; row++) {
+        for (int col = 0; col < this->size; col++) {
+            if (this->board[row][col] == BLANK) {
+                position = make_pair(row, col);
+            }
+        }
+    }
+    
+    return position;
 }
 
 
@@ -64,7 +96,7 @@ unsigned int State::getSize() {
 }
 
 
-bool State::setBoard(unsigned int _size, int **_board) {
+bool State::setBoard(const unsigned int _size, const int **_board) {
     if(this->size != _size) {
         return false;
     }
@@ -87,6 +119,8 @@ bool State::setCost(unsigned int _cost) {
 
 State State::operator=(State &_state) {
     if ((this != &_state) and (this->size == _state.getSize())) {
+        this->cost = _state.getCost();
+        this->size = _state.getSize();
         for (int row = 0; row < this->size; row++) {
             for (int col = 0; col < this->size; col++) {
                 this->board[row][col] = _state.getElement(row, col);
@@ -95,6 +129,17 @@ State State::operator=(State &_state) {
     }
     
     return (*this);
+}
+
+
+void State::toString() {
+    cout << "Size: " << this->size << "\n";
+    for (int row = 0; row < this->size; row++) {
+        for (int col = 0; col < this->size; col++) {
+            cout << this->board[row][col] << " ";
+        }
+        cout << "\n";
+    }
 }
 
 /*

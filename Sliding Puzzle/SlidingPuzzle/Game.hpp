@@ -1,0 +1,65 @@
+//
+//  Game.hpp
+//  SlidingPuzzle
+//
+//  Created by Rafael Vareto on 10/31/15.
+//  Copyright © 2015 Universidade Federal de Minas Gerais. All rights reserved.
+//
+
+#ifndef Game_hpp
+#define Game_hpp
+
+#define UP      1
+#define RIGHT   2
+#define DOWN    3
+#define LEFT    4
+
+#define NORTH   "acima"
+#define EAST    "direita"
+#define SOUTH   "abaixo"
+#define WEST    "esquerda"
+
+#define ASCENDING(a,b) (a.getCost() < b.getCost ? a : b)
+#define DESCENDING(a,b) (a.getCost() < b.getCost ? b : a)
+
+#include <fstream>
+#include <iostream>
+#include <queue>
+#include <vector>
+
+#include "State.hpp"
+
+using namespace std;
+
+class Game {
+public:
+    Game(string _fileName);
+    Game(int _size, State &_start);
+    
+    ~Game();
+    
+    State getCurrent();
+    State getGoal();
+    State getStart();
+
+    bool readFile(string _fileName);
+    bool solve();
+    
+//private:
+    vector<int> getMoves(const int x, const int y);
+    vector<State> getNeighbors(int (*heuristic)(int **),const int x, const int y);
+    
+    int heuristicA(const int **_matrix);
+    int heuristicB(const int **_matrix);
+    int heuristicC(const int **_matrix);
+    
+    State *current;
+    State *goal;
+    State *start;
+    vector<State *> temporary;
+    vector<string> rawInput;
+    unsigned int size;
+    
+};
+
+#endif /* Game_hpp */

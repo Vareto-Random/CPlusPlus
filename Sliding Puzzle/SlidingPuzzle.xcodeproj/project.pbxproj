@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7E15E6C71BE55AE90081C60F /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E15E6C51BE55AE90081C60F /* State.cpp */; };
+		7E15E6CA1BE56F820081C60F /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E15E6C81BE56F820081C60F /* Game.cpp */; };
 		7EF370751BE401FF001C8FF7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EF370741BE401FF001C8FF7 /* main.cpp */; };
-		7EF3707D1BE402B8001C8FF7 /* Puzzle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EF3707B1BE402B8001C8FF7 /* Puzzle.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,10 +27,10 @@
 /* Begin PBXFileReference section */
 		7E15E6C51BE55AE90081C60F /* State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = State.cpp; sourceTree = "<group>"; };
 		7E15E6C61BE55AE90081C60F /* State.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = State.hpp; sourceTree = "<group>"; };
+		7E15E6C81BE56F820081C60F /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
+		7E15E6C91BE56F820081C60F /* Game.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
 		7EF370711BE401FF001C8FF7 /* SlidingPuzzle */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SlidingPuzzle; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EF370741BE401FF001C8FF7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		7EF3707B1BE402B8001C8FF7 /* Puzzle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Puzzle.cpp; sourceTree = "<group>"; };
-		7EF3707C1BE402B8001C8FF7 /* Puzzle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Puzzle.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,10 +64,10 @@
 			isa = PBXGroup;
 			children = (
 				7EF370741BE401FF001C8FF7 /* main.cpp */,
-				7EF3707B1BE402B8001C8FF7 /* Puzzle.cpp */,
-				7EF3707C1BE402B8001C8FF7 /* Puzzle.hpp */,
 				7E15E6C51BE55AE90081C60F /* State.cpp */,
 				7E15E6C61BE55AE90081C60F /* State.hpp */,
+				7E15E6C81BE56F820081C60F /* Game.cpp */,
+				7E15E6C91BE56F820081C60F /* Game.hpp */,
 			);
 			path = SlidingPuzzle;
 			sourceTree = "<group>";
@@ -129,8 +129,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EF370751BE401FF001C8FF7 /* main.cpp in Sources */,
-				7EF3707D1BE402B8001C8FF7 /* Puzzle.cpp in Sources */,
 				7E15E6C71BE55AE90081C60F /* State.cpp in Sources */,
+				7E15E6CA1BE56F820081C60F /* Game.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -63,6 +63,7 @@ State::State(int _size, const vector<string> _board) {
 
 
 State::~State() {
+    cout << "State::~State invoked" << endl;
     this->deallocate();
 }
 
@@ -73,6 +74,7 @@ pair<int, int> State::findBlank() {
         for (int col = 0; col < this->size; col++) {
             if (this->board[row][col] == BLANK) {
                 position = make_pair(row, col);
+                return position;
             }
         }
     }
@@ -252,6 +254,8 @@ bool State::deallocate() {
     
         delete [] this->board;
         this->board = NULL;
+        this->cost = 0;
+        this->size = 0;
     }
     
     return true;

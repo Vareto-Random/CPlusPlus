@@ -15,7 +15,7 @@
 Game::Game(string _fileName) {
     this->readFile(_fileName);
 
-//    this->current = new State(this->size, this->rawInput);
+    //this->current = new State(this->size, this->rawInput);
     this->goal = new State(this->size);
     this->start = new State(this->size, this->rawInput);
 }
@@ -25,20 +25,28 @@ Game::Game(int _size, State &_state) {
     this->rawInput.clear();
     this->size = _size;
     
-//    this->current = new State(_state);
+    //this->current = new State(_state);
     this->goal = new State(this->size);
     this->start = new State(_state);
 }
 
 
 Game::~Game() {
-//    delete this->current;
+    cout << "Game::~Game invoked" << endl;
+    //delete this->current;
     delete this->goal;
     delete this->start;
     
-//    for (int index = 0; index < this->history.size(); index++) {
-//        delete this->history[index];
-//    }
+    for (int index = 0; index < this->history.size(); index++) {
+        delete this->history[index];
+        this->history[index] = NULL;
+    }
+    
+    for (int index = 0; index < this->queue.size(); index++) {
+        State *top = this->queue.top();
+        this->queue.pop();
+        delete top;
+    }
 }
 
 
@@ -78,6 +86,18 @@ bool Game::readFile(string _fileName) {
 
 
 bool Game::solve() {
+    this->queue.push(this->start);
+    
+    while (this->queue.size() > 0) {
+        State *current = new State(*this->queue.top());
+        this->queue.pop();
+        this->history.push_back(current);
+        
+        
+        
+    }
+    
+    
     return false;
 }
 
@@ -105,7 +125,12 @@ vector<int> Game::getMoves(const int x, const int y) {
 }
 
 vector<State> Game::getNeighbors(int (*heuristic)(int **), const int x, const int y) {
+    vector<int> moves = this->getMoves(x, y);
     vector<State> neighbors;
+    
+    for (int index = 0; index < moves.size(); index++) {
+        
+    }
     
     return neighbors;
 }

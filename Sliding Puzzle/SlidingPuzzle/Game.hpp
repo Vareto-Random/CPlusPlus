@@ -28,7 +28,7 @@ public:
     
     ~Game();
     
-//    State getCurrent();
+    //State getCurrent();
     State getGoal();
     State getStart();
 
@@ -43,11 +43,11 @@ private:
     int heuristicB(const int **_matrix);
     int heuristicC(const int **_matrix);
     
-    priority_queue<State> queue;
-//    State *current;
+    priority_queue<State *> queue;
+    //State *current;
     State *goal;
     State *start;
-    vector<State> history;
+    vector<State *> history;
     vector<string> rawInput;
     unsigned int size;
     

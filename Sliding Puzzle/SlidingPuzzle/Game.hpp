@@ -28,7 +28,6 @@ public:
     
     ~Game();
     
-    //State getCurrent();
     State getGoal();
     State getStart();
 
@@ -36,19 +35,19 @@ public:
     bool solve();
     
 private:
-    vector<int> getMoves(const int x, const int y);
-    vector<State> getNeighbors(int (*heuristic)(int **),const int x, const int y);
-    
     int heuristicA(State &_state);
     int heuristicB(const int **_matrix);
     int heuristicC(const int **_matrix);
     
     priority_queue<State *> queue;
-    //State *current;
+
     State *goal;
     State *start;
+    
+    vector<State *> allocations;
     vector<State *> history;
     vector<string> rawInput;
+
     unsigned int size;
     
 };

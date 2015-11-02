@@ -15,7 +15,6 @@
 Game::Game(string _fileName) {
     this->readFile(_fileName);
 
-    //this->current = new State(this->size, this->rawInput);
     this->goal = new State(this->size);
     this->start = new State(this->size, this->rawInput);
 }
@@ -25,7 +24,6 @@ Game::Game(int _size, State &_state) {
     this->rawInput.clear();
     this->size = _size;
     
-    //this->current = new State(_state);
     this->goal = new State(this->size);
     this->start = new State(_state);
 }
@@ -33,26 +31,14 @@ Game::Game(int _size, State &_state) {
 
 Game::~Game() {
     cout << "Game::~Game invoked" << endl;
-    //delete this->current;
     delete this->goal;
     delete this->start;
     
-    for (int index = 0; index < this->history.size(); index++) {
-        delete this->history[index];
-        this->history[index] = NULL;
-    }
-    
-    for (int index = 0; index < this->queue.size(); index++) {
-        State *top = this->queue.top();
-        this->queue.pop();
-        delete top;
+    for (int index = 0; index < this->allocations.size(); index++) {
+        delete this->allocations[index];
+        this->allocations[index] = NULL;
     }
 }
-
-
-//State Game::getCurrent() {
-//    return *(this->current);
-//}
 
 
 State Game::getGoal() {
@@ -86,12 +72,22 @@ bool Game::readFile(string _fileName) {
 
 
 bool Game::solve() {
-    this->queue.push(this->start);
+    State *begin = new State(*this->start);
+    this->queue.push(begin);
+    this->allocations.push_back(begin);
     
     while (this->queue.size() > 0) {
-        State *current = new State(*this->queue.top());
+        State *current = this->queue.top();
         this->queue.pop();
         this->history.push_back(current);
+        
+        
+        current->toString();
+        vector<State *> neighbors = current->getNeighbors();
+        for (int index = 0; index < neighbors.size(); index++) {
+            this->allocations.push_back(neighbors[index]);
+            neighbors[index]->toString();
+        }
         
         
         
@@ -104,36 +100,6 @@ bool Game::solve() {
 /*
  * Private Methods
  */
-
-vector<int> Game::getMoves(const int x, const int y) {
-    vector<int> moves;
-    
-    if ((x > 0) and (x < this->size)) {
-        moves.push_back(UP);
-    }
-    if ((y >= 0) and (y < this->size - 1)) {
-        moves.push_back(RIGHT);
-    }
-    if ((x >= 0) and (x < this->size - 1)) {
-        moves.push_back(DOWN);
-    }
-    if ((y > 0) and (y < this->size)) {
-        moves.push_back(LEFT);
-    }
-    
-    return moves;
-}
-
-vector<State> Game::getNeighbors(int (*heuristic)(int **), const int x, const int y) {
-    vector<int> moves = this->getMoves(x, y);
-    vector<State> neighbors;
-    
-    for (int index = 0; index < moves.size(); index++) {
-        
-    }
-    
-    return neighbors;
-}
 
 int Game::heuristicA(State &_state) {
     int sum = 0;

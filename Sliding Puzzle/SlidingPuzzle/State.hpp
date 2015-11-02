@@ -36,13 +36,14 @@ public:
     
     ~State();
     
-    pair<int, int> findBlank();
+    
     
     int ** getBoard();
     int getCost();
     int getElement(int row, int col);
     int getSize();
-    static State getSolution();
+    
+    vector<State *> getNeighbors();
     
     bool setBoard(const int _size, const int **_board);
     bool setCost(int _cost);
@@ -51,7 +52,6 @@ public:
     bool operator>(State &_state);
     bool operator==(State &_state);
     State& operator=(State &_state);
-    State swap(const int move);
 
     void toString();
     
@@ -60,6 +60,9 @@ private:
     bool copy(int **_board);
     bool deallocate();
     bool initialize();
+    
+    pair<int, int> getBlank();
+    vector<int> getMoves(const int x, const int y);
     
     int** board;
     unsigned int cost;

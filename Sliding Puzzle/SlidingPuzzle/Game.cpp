@@ -81,7 +81,6 @@ bool Game::solve() {
         this->queue.pop();
         this->history.push_back(current);
         
-        
         current->toString();
         vector<State *> neighbors = current->getNeighbors();
         for (int index = 0; index < neighbors.size(); index++) {
@@ -101,22 +100,50 @@ bool Game::solve() {
  * Private Methods
  */
 
-int Game::heuristicA(State &_state) {
-    int sum = 0;
-    for (int row = 0; row < this->size; row++) {
-        for (int col = 0; col < this->size; col++) {
-            if (this->goal->getElement(row, col) != _state.getElement(row, col)) {
-                sum++;
+int Game::heuristicA(State &_start, State &_current, State &_goal) {
+    int distanceGoal = 0;
+    int distanceStart = 0;
+    for (int row = 0; row < _start.getSize(); row++) {
+        for (int col = 0; col < _start.getSize(); col++) {
+            if (_start.getElement(row, col) != _current.getElement(row, col)) {
+                distanceStart++;
+            }
+            if (_goal.getElement(row, col) != _current.getElement(row, col)) {
+                distanceGoal++;
             }
         }
     }
-    return sum;
+    return (distanceStart + distanceGoal);
 }
 
-int Game::heuristicB(const int **_matrix) {
-    return 0;
+int Game::heuristicB(State &_start, State &_current, State &_goal) {
+    int distanceGoal = 0;
+    int distanceStart = 0;
+    for (int row = 0; row < _start.getSize(); row++) {
+        for (int col = 0; col < _start.getSize(); col++) {
+            if (_start.getElement(row, col) != _current.getElement(row, col)) {
+                distanceStart++;
+            }
+            if (_goal.getElement(row, col) != _current.getElement(row, col)) {
+                distanceGoal++;
+            }
+        }
+    }
+    return 2*(distanceStart + distanceGoal);
 }
 
-int Game::heuristicC(const int **_matrix) {
-    return 0;
+int Game::heuristicC(State &_start, State &_current, State &_goal) {
+    int distanceGoal = 0;
+    int distanceStart = 0;
+    for (int row = 0; row < _start.getSize(); row++) {
+        for (int col = 0; col < _start.getSize(); col++) {
+            if (_start.getElement(row, col) != _current.getElement(row, col)) {
+                distanceStart++;
+            }
+            if (_goal.getElement(row, col) != _current.getElement(row, col)) {
+                distanceGoal++;
+            }
+        }
+    }
+    return 2*(distanceStart + distanceGoal);
 }

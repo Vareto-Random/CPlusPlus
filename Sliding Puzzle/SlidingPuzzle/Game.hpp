@@ -35,9 +35,9 @@ public:
     bool solve();
     
 private:
-    int heuristicA(State &_state);
-    int heuristicB(const int **_matrix);
-    int heuristicC(const int **_matrix);
+    static int heuristicA(State &_start, State &_current, State &_goal);
+    static int heuristicB(State &_start, State &_current, State &_goal);
+    static int heuristicC(State &_start, State &_current, State &_goal);
     
     priority_queue<State *> queue;
 

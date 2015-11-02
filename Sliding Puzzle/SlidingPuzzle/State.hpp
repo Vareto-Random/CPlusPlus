@@ -36,13 +36,11 @@ public:
     
     ~State();
     
-    
-    
     int ** getBoard();
     int getCost();
     int getElement(int row, int col);
     int getSize();
-    
+
     vector<State *> getNeighbors();
     
     bool setBoard(const int _size, const int **_board);
@@ -65,6 +63,7 @@ private:
     vector<int> getMoves(const int x, const int y);
     
     int** board;
+    State *parent;
     unsigned int cost;
     unsigned int size;
 };

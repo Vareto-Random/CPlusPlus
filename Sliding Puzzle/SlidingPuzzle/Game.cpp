@@ -43,17 +43,17 @@ Game::~Game() {
 
 
 State Game::getCurrent() {
-    return *this->current;
+    return *(this->current);
 }
 
 
 State Game::getGoal() {
-    return *this->goal;
+    return *(this->goal);
 }
 
 
 State Game::getStart() {
-    return *this->start;
+    return *(this->start);
 }
 
 
@@ -78,7 +78,9 @@ bool Game::readFile(string _fileName) {
 
 
 bool Game::solve() {
-    return false;
+    bool a = true;
+    a = (*(this->current) == *(this->goal));
+    return a;
 }
 
 /*

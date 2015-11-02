@@ -122,6 +122,26 @@ bool State::setCost(int _cost) {
 }
 
 
+bool State::operator==(State &_state) {
+    if (this != &_state) {
+        bool condA = (this->cost == _state.getCost());
+        bool condB = (this->size == _state.getSize());
+        
+        if (condA and condB) {
+            int **matrix = _state.getBoard();
+            for (int row = 0; row < this->size; row++) {
+                for (int col = 0; col < this->size; col++) {
+                    if (this->board[row][col] != matrix[row][col]) {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+
+
 State& State::operator=(State &_state) {
     if (this != &_state) {
         if (this->size != _state.getSize()) {

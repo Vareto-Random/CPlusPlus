@@ -47,6 +47,7 @@ public:
     bool setBoard(const int _size, const int **_board);
     bool setCost(int _cost);
 
+    bool operator==(State &_state);
     State& operator=(State &_state);
     State swap(const int move);
 

@@ -122,6 +122,16 @@ bool State::setCost(int _cost) {
 }
 
 
+bool State::operator<(State &_state) {
+    return this->cost < _state.getCost();
+}
+
+
+bool State::operator>(State &_state) {
+    return this->cost > _state.getCost();
+}
+
+
 bool State::operator==(State &_state) {
     if (this != &_state) {
         bool condA = (this->cost == _state.getCost());

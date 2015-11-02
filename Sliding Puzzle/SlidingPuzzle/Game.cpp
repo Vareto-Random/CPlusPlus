@@ -15,7 +15,7 @@
 Game::Game(string _fileName) {
     this->readFile(_fileName);
 
-    this->current = new State(this->size, this->rawInput);
+//    this->current = new State(this->size, this->rawInput);
     this->goal = new State(this->size);
     this->start = new State(this->size, this->rawInput);
 }
@@ -25,26 +25,26 @@ Game::Game(int _size, State &_state) {
     this->rawInput.clear();
     this->size = _size;
     
-    this->current = new State(_state);
+//    this->current = new State(_state);
     this->goal = new State(this->size);
     this->start = new State(_state);
 }
 
 
 Game::~Game() {
-    delete this->current;
+//    delete this->current;
     delete this->goal;
     delete this->start;
     
-    for (int index = 0; index < temporary.size(); index++) {
-        delete temporary[index];
-    }
+//    for (int index = 0; index < this->history.size(); index++) {
+//        delete this->history[index];
+//    }
 }
 
 
-State Game::getCurrent() {
-    return *(this->current);
-}
+//State Game::getCurrent() {
+//    return *(this->current);
+//}
 
 
 State Game::getGoal() {
@@ -78,9 +78,7 @@ bool Game::readFile(string _fileName) {
 
 
 bool Game::solve() {
-    bool a = true;
-    a = (*(this->current) == *(this->goal));
-    return a;
+    return false;
 }
 
 /*
@@ -112,8 +110,16 @@ vector<State> Game::getNeighbors(int (*heuristic)(int **), const int x, const in
     return neighbors;
 }
 
-int Game::heuristicA(const int **_matrix) {
-    return 0;
+int Game::heuristicA(State &_state) {
+    int sum = 0;
+    for (int row = 0; row < this->size; row++) {
+        for (int col = 0; col < this->size; col++) {
+            if (this->goal->getElement(row, col) != _state.getElement(row, col)) {
+                sum++;
+            }
+        }
+    }
+    return sum;
 }
 
 int Game::heuristicB(const int **_matrix) {

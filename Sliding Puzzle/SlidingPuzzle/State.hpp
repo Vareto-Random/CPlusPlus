@@ -40,13 +40,15 @@ public:
     
     int ** getBoard();
     int getCost();
-    inline int getElement(const int row, const int col);
+    int getElement(int row, int col);
     int getSize();
     static State getSolution();
     
     bool setBoard(const int _size, const int **_board);
     bool setCost(int _cost);
 
+    bool operator<(State &_state);
+    bool operator>(State &_state);
     bool operator==(State &_state);
     State& operator=(State &_state);
     State swap(const int move);

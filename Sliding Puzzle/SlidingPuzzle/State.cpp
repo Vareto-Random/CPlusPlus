@@ -68,6 +68,19 @@ State::~State() {
 }
 
 
+int State::calcHash() {
+    int checkSum = 0;
+    
+    for (int row = 0; row < this->size; row++) {
+        for (int col = 0; col < this->size; col++) {
+            checkSum += ( (this->board[row][col] * row) + col );
+        }
+    }
+    
+    return checkSum;
+}
+
+
 int ** State::getBoard() {
     return this->board;
 }
@@ -80,6 +93,11 @@ int State::getCost() {
 
 int State::getElement(int row, int col) {
     return this->board[row][col];
+}
+
+
+int State::getLevel() {
+    return this->level;
 }
 
 
@@ -109,6 +127,23 @@ bool State::setCost(int _cost) {
 }
 
 
+bool State::setLevel(int _level) {
+    this->level = _level;
+    return true;
+}
+
+
+bool State::setParent(State *_parent) {
+    this->parent = _parent;
+    return true;
+}
+
+
+bool State::operator()(State &_stateA, State &_stateB) {
+    return _stateA.getCost() < _stateB.getCost();
+}
+
+
 bool State::operator<(State &_state) {
     return this->cost < _state.getCost();
 }
@@ -134,6 +169,7 @@ bool State::operator==(State &_state) {
                 }
             }
         }
+        return false;
     }
     return true;
 }
@@ -150,7 +186,9 @@ State& State::operator=(State &_state) {
         }
         
         this->cost = _state.getCost();
+        this->level = _state.getLevel();
         this->size = _state.getSize();
+        
         for (int row = 0; row < this->size; row++) {
             for (int col = 0; col < this->size; col++) {
                 this->board[row][col] = _state.getElement(row, col);
@@ -160,6 +198,12 @@ State& State::operator=(State &_state) {
     
     return (*this);
 }
+
+
+State * State::getParent() {
+    return this->parent;
+}
+
 
 vector<State *> State::getNeighbors() {
     pair<int, int> pos = this->getBlank();
@@ -196,7 +240,7 @@ vector<State *> State::getNeighbors() {
 
 
 void State::toString() {
-    cout << "Size: " << this->size << "\n";
+    cout << "Cost: " << this->cost << "\n";
     for (int row = 0; row < this->size; row++) {
         for (int col = 0; col < this->size; col++) {
             printf("%6d ", this->board[row][col]);
@@ -245,6 +289,9 @@ bool State::deallocate() {
         delete [] this->board;
         this->board = NULL;
         this->cost = 0;
+        this->hash = 0;
+        this->level = 0;
+        this->parent = NULL;
         this->size = 0;
     }
     
@@ -253,8 +300,11 @@ bool State::deallocate() {
 
 
 bool State::initialize() {
-    this->cost = 0;
     this->board = NULL;
+    this->cost = 0;
+    this->hash = 0;
+    this->level = 0;
+    this->parent = NULL;
     this->size = 0;
     
     return true;

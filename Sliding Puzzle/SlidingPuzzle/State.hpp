@@ -36,16 +36,24 @@ public:
     
     ~State();
     
+    int calcHash();
+    
     int ** getBoard();
     int getCost();
     int getElement(int row, int col);
+    int getLevel();
     int getSize();
 
+    State * getParent();
     vector<State *> getNeighbors();
     
     bool setBoard(const int _size, const int **_board);
     bool setCost(int _cost);
+    bool setLevel(int _level);
+    
+    bool setParent(State *_parent);
 
+    bool operator()(State &_stateA, State &_stateB);
     bool operator<(State &_state);
     bool operator>(State &_state);
     bool operator==(State &_state);
@@ -65,6 +73,8 @@ private:
     int** board;
     State *parent;
     unsigned int cost;
+    unsigned int hash;
+    unsigned int level;
     unsigned int size;
 };
 

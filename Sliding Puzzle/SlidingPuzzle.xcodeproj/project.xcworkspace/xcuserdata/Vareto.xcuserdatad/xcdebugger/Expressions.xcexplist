@@ -19,5 +19,13 @@
       <ContextState
          contextName = "State::operator=(State&amp;):State.cpp">
       </ContextState>
+      <ContextState
+         contextName = "Game::solve():Game.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "this-&gt;queue.size()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

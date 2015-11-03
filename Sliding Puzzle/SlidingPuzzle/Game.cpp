@@ -72,65 +72,87 @@ bool Game::readFile(string _fileName) {
 
 
 bool Game::solve() {
-    State *begin = new State(*this->start);
-    this->queue.push(begin);
-    this->allocations.push_back(begin);
+    this->heuristic = this->heuristicA;
+
+    int cost = this->heuristic(*this->start, *this->start, *this->goal);
+    this->start->setCost(cost);
+    this->start->setLevel(0);
+    this->start->setParent(NULL);
     
+    State *begin = new State(*this->start);
+    this->allocations.push_back(begin);
+    this->queue.push(begin);
+    this->queueSet.insert(begin);
+
     while (this->queue.size() > 0) {
         State *current = this->queue.top();
         this->queue.pop();
-        this->history.push_back(current);
+        this->queueSet.erase(current);
+        //this->history.push_back(current);
         
         current->toString();
+        for (set<State *>::iterator it; it != this->queueSet.end(); it++) {
+            it.
+        }
+        
         vector<State *> neighbors = current->getNeighbors();
         for (int index = 0; index < neighbors.size(); index++) {
             this->allocations.push_back(neighbors[index]);
-            neighbors[index]->toString();
+            //neighbors[index]->toString();
+            
+            if (this->queueSet.find(neighbors[index]) == this->queueSet.end()) {
+                cost = this->heuristic(*this->start, *neighbors[index], *this->goal);
+                neighbors[index]->setParent(current);
+                neighbors[index]->setLevel(neighbors[index]->getParent()->getLevel() + 1);
+                neighbors[index]->setCost(cost + neighbors[index]->getLevel());
+                
+                this->queue.push(neighbors[index]);
+                this->queueSet.insert(neighbors[index]);
+                
+                if (*(this->goal) == *neighbors[index]) {
+                    return true;
+                }
+            }
+
         }
-        
-        
+        cout << "----------------------------";
+        cin.get();
         
     }
     
-    
     return false;
 }
+
 
 /*
  * Private Methods
  */
 
 int Game::heuristicA(State &_start, State &_current, State &_goal) {
-    int distanceGoal = 0;
-    int distanceStart = 0;
+    int distance = 0;
     for (int row = 0; row < _start.getSize(); row++) {
         for (int col = 0; col < _start.getSize(); col++) {
-            if (_start.getElement(row, col) != _current.getElement(row, col)) {
-                distanceStart++;
-            }
             if (_goal.getElement(row, col) != _current.getElement(row, col)) {
-                distanceGoal++;
+                distance++;
             }
         }
     }
-    return (distanceStart + distanceGoal);
+    return distance;
 }
 
+
 int Game::heuristicB(State &_start, State &_current, State &_goal) {
-    int distanceGoal = 0;
-    int distanceStart = 0;
+    int distance = 0;
     for (int row = 0; row < _start.getSize(); row++) {
         for (int col = 0; col < _start.getSize(); col++) {
-            if (_start.getElement(row, col) != _current.getElement(row, col)) {
-                distanceStart++;
-            }
             if (_goal.getElement(row, col) != _current.getElement(row, col)) {
-                distanceGoal++;
+                distance++;
             }
         }
     }
-    return 2*(distanceStart + distanceGoal);
+    return (2 * distance);
 }
+
 
 int Game::heuristicC(State &_start, State &_current, State &_goal) {
     int distanceGoal = 0;

@@ -15,6 +15,7 @@
 #include <fstream>
 #include <iostream>
 #include <queue>
+#include <set>
 #include <vector>
 
 #include "State.hpp"
@@ -44,11 +45,16 @@ private:
     State *goal;
     State *start;
     
+    set<State *> queueSet;
+    set<State *> historySet;
+    
     vector<State *> allocations;
-    vector<State *> history;
+//    vector<State *> history;
     vector<string> rawInput;
 
     unsigned int size;
+    
+    int (*heuristic)(State &_start, State &_current, State &_goal) = NULL;
     
 };
 

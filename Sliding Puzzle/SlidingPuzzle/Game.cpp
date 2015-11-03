@@ -89,20 +89,19 @@ bool Game::solve() {
         this->queue.pop();
         cout << this->queueSet.erase(current) << endl;
         this->historySet.insert(current);
-
+        
         current->toString();
         cout << "-  -  -  -  -  -  -  -  -  -\n";
         for (set<State *>::iterator it = this->queueSet.begin(); it != this->queueSet.end(); it++) {
             (*it)->toString();
         }
         
-        
         vector<State *> neighbors = current->getNeighbors();
         for (int index = 0; index < neighbors.size(); index++) {
             this->allocations.push_back(neighbors[index]);
             //neighbors[index]->toString();
             
-            //if ( (this->queueSet.find(neighbors[index]) == this->queueSet.end())){// and (this->historySet.find(neighbors[index]) == this->historySet.end()) ) {
+            if ( (this->queueSet.find(neighbors[index]) == this->queueSet.end()) and (this->historySet.find(neighbors[index]) == this->historySet.end()) ) {
                 
                 cost = this->heuristic(*this->start, *neighbors[index], *this->goal);
                 neighbors[index]->setParent(current);
@@ -115,7 +114,7 @@ bool Game::solve() {
                 if (*(this->goal) == neighbors[index]) {
                     return true;
                 }
-            //}
+            }
 
         }
         cout << "----------------------------";

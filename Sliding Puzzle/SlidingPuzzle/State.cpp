@@ -155,21 +155,15 @@ bool State::operator>(State *_state) {
 
 
 bool State::operator==(State *_state) {
-    if (this != _state) {
-        bool condA = (this->cost == _state->getCost());
-        bool condB = (this->size == _state->getSize());
-        
-        if (condA and condB) {
-            int **matrix = _state->getBoard();
-            for (int row = 0; row < this->size; row++) {
-                for (int col = 0; col < this->size; col++) {
-                    if (this->board[row][col] != matrix[row][col]) {
-                        return false;
-                    }
+    if ((this != _state) and (this->size == _state->getSize())) {
+        int **matrix = _state->getBoard();
+        for (int row = 0; row < this->size; row++) {
+            for (int col = 0; col < this->size; col++) {
+                if (this->board[row][col] != matrix[row][col]) {
+                    return false;
                 }
             }
         }
-        return false;
     }
     return true;
 }
@@ -358,9 +352,9 @@ bool Queue::operator()(State *_stateA, State *_stateB)
 
 
 bool Set::operator()(State *_stateA, State *_stateB) {
-    if (_stateA == _stateB) {
-        return false;
-    } else {
+//    if (_stateA == _stateB) {
+//        return false;
+//    } else {
         int **matrixA = _stateA->getBoard();
         int **matrixB = _stateB->getBoard();
             
@@ -371,6 +365,6 @@ bool Set::operator()(State *_stateA, State *_stateB) {
                 }
             }
         }
-    }
-    return false;
+        return false;
+//    }
 }

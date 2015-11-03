@@ -37,16 +37,16 @@ public:
     bool solve();
     
 private:
-    static int heuristicA(State &_start, State &_current, State &_goal);
-    static int heuristicB(State &_start, State &_current, State &_goal);
-    static int heuristicC(State &_start, State &_current, State &_goal);
+    static int heuristicA(State *_start, State *_current, State *_goal);
+    static int heuristicB(State *_start, State *_current, State *_goal);
+    static int heuristicC(State *_start, State *_current, State *_goal);
     
     priority_queue<State *, vector<State*>, Queue> queue;
 
     State *goal;
     State *start;
     
-    set<State *, Queue> queueSet;
+    //set<State *, Set> queueSet;
     set<State *, Set> historySet;
     
     vector<State *> allocations;
@@ -54,7 +54,7 @@ private:
 
     unsigned int size;
     
-    int (*heuristic)(State &_start, State &_current, State &_goal) = NULL;
+    int (*heuristic)(State *_start, State *_current, State *_goal) = NULL;
     
 };
 

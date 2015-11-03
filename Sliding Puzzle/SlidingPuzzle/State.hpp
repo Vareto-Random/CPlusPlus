@@ -21,6 +21,7 @@
 #define SOUTH   "abaixo"
 #define WEST    "esquerda"
 
+#include <functional>
 #include <iostream>
 #include <vector>
 
@@ -40,6 +41,7 @@ public:
     int ** getBoard();
     int getCost();
     int getElement(int row, int col);
+    int getHash();
     int getLevel();
     int getSize();
     

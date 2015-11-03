@@ -69,15 +69,18 @@ State::~State() {
 
 
 int State::calcHash() {
-    int checkSum = 0;
+    int total = 0;
     
     for (int row = 0; row < this->size; row++) {
         for (int col = 0; col < this->size; col++) {
-            checkSum += ( (this->board[row][col] * row) + col );
+            if(this->board[row][col] != BLANK) {
+                total = total + ( this->board[row][col] * ((int) (row+31)/(col+1)) * (col+23)/(row+1) ) ;
+            }
         }
     }
     
-    return checkSum;
+    this->hash = total;
+    return total;
 }
 
 
@@ -93,6 +96,11 @@ int State::getCost() {
 
 int State::getElement(int row, int col) {
     return this->board[row][col];
+}
+
+
+int State::getHash() {
+    return this->hash;
 }
 
 

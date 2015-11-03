@@ -94,7 +94,8 @@ bool Game::solvability() {
     
     // http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
     condA = ( (this->size % 2 != 0) and (inversions % 2 == 0) );
-    oddRow = ( (this->size - this->start->getBlank().first) % 2 != 0 );
+    //oddRow = ( (this->size - this->start->getBlank().first) % 2 != 0 );
+    oddRow = ( (this->start->getBlank().first + 1) % 2 != 0 );
     condB = ( (this->size % 2 == 0) and (oddRow == (inversions % 2 == 0)) );
     
     if (!(condA or condB)) {
@@ -107,6 +108,8 @@ bool Game::solvability() {
 
 bool Game::solve() {
     this->heuristic = this->heuristicB;
+    int count = 0;
+    State * result;
 
     int cost = this->heuristic(this->start, this->start, this->goal);
     this->start->setCost(cost);
@@ -116,44 +119,54 @@ bool Game::solve() {
     State *begin = new State(*this->start);
     this->allocations.push_back(begin);
     this->queue.push(begin);
-    //this->queueSet.insert(begin);
+    this->queueHash.insert(begin->calcHash());
+    //begin->toString();
 
     while (this->queue.size() > 0) {
         State *current = this->queue.top();
         this->queue.pop();
-        //this->queueSet.erase(current);
-        this->historySet.insert(current);
+        this->queueHash.erase(current->calcHash());
+        this->historyHash.insert(current->calcHash());
+        count++;
         
-        current->toString();
-        cout << "-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - \n";
+        //current->toString();
+        //cout << "-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - \n";
         
         vector<State *> neighbors = current->getNeighbors();
         for (int index = 0; index < neighbors.size(); index++) {
             this->allocations.push_back(neighbors[index]);
             
-            //if ( (this->queueSet.find(neighbors[index]) == this->queueSet.end()) and (this->historySet.find(neighbors[index]) == this->historySet.end()) ) {
-            if (this->historySet.find(neighbors[index]) == this->historySet.end()) {
+            bool condA = ( this->queueHash.find(neighbors[index]->calcHash()) == this->queueHash.end() );
+            bool condB = ( this->historyHash.find(neighbors[index]->calcHash()) == this->historyHash.end() );
+            
+            if (condA and condB) {
                 cost = this->heuristic(this->start, neighbors[index], this->goal);
                 neighbors[index]->setParent(current);
                 neighbors[index]->setLevel(neighbors[index]->getParent()->getLevel() + 1);
                 neighbors[index]->setCost(cost + neighbors[index]->getLevel());
-                neighbors[index]->toString();
+                //neighbors[index]->toString();
                 
                 this->queue.push(neighbors[index]);
-                //this->queueSet.insert(neighbors[index]);
+                this->queueHash.insert(neighbors[index]->calcHash());
+                neighbors[index]->toString();
                 
                 if (*(this->goal) == neighbors[index]) {
-                    cout << "--------------------------------------------------------\n";
+                    //cout << "--------------------------------------------------------\n";
                     neighbors[index]->toString();
+                    result = neighbors[index];
+                    cout << "\nCOUNT: " << count << endl;
                     return true;
                 }
             }
 
         }
+        cout << "Queue: " << queue.size() << " Hash: " << queueHash.size() << " History: " << historyHash.size() << endl;
         cout << "--------------------------------------------------------\n";
-        cin.get();
+        //cin.get();
         
     }
+    
+    cout << "\nCOUNT: " << count << endl;
     
     return false;
 }

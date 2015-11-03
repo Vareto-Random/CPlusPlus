@@ -49,8 +49,8 @@ private:
     set<long> queueHash;
     set<long> historyHash;
     
-    //set<State *, Set> queueSet;
-    //set<State *, Set> historySet;
+//    set<State *, Set> queueSet;
+//    set<State *, Set> historySet;
     
     vector<State *> allocations;
     vector<string> rawInput;

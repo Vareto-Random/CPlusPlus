@@ -120,6 +120,7 @@ bool Game::solve() {
     this->allocations.push_back(begin);
     this->queue.push(begin);
     this->queueHash.insert(begin->calcHash());
+    //this->queueSet.insert(begin);
     //begin->toString();
 
     while (this->queue.size() > 0) {
@@ -127,6 +128,8 @@ bool Game::solve() {
         this->queue.pop();
         this->queueHash.erase(current->calcHash());
         this->historyHash.insert(current->calcHash());
+        //this->queueSet.erase(current);
+        //this->historySet.insert(current);
         count++;
         
         //current->toString();
@@ -138,6 +141,9 @@ bool Game::solve() {
             
             bool condA = ( this->queueHash.find(neighbors[index]->calcHash()) == this->queueHash.end() );
             bool condB = ( this->historyHash.find(neighbors[index]->calcHash()) == this->historyHash.end() );
+
+            //bool condA = ( this->queueSet.find(neighbors[index]) == this->queueSet.end() );
+            //bool condB = ( this->historySet.find(neighbors[index]) == this->historySet.end() );
             
             if (condA and condB) {
                 cost = this->heuristic(this->start, neighbors[index], this->goal);
@@ -148,6 +154,7 @@ bool Game::solve() {
                 
                 this->queue.push(neighbors[index]);
                 this->queueHash.insert(neighbors[index]->calcHash());
+                //this->queueSet.insert(neighbors[index]);
                 neighbors[index]->toString();
                 
                 if (*(this->goal) == neighbors[index]) {

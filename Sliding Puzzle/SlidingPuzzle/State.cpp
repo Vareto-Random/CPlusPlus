@@ -63,7 +63,7 @@ State::State(int _size, const vector<string> _board) {
 
 
 State::~State() {
-    cout << "State::~State invoked" << endl;
+    //cout << "State::~State invoked" << endl;
     this->deallocate();
 }
 
@@ -106,6 +106,81 @@ int State::getSize() {
 }
 
 
+pair<int, int> State::getBlank() {
+    pair<int, int> position;
+    
+    for (int row = 0; row < this->size; row++) {
+        for (int col = 0; col < this->size; col++) {
+            if (this->board[row][col] == BLANK) {
+                position = make_pair(row, col);
+                return position;
+            }
+        }
+    }
+    
+    return position;
+}
+
+
+vector<int> State::getMoves(const int x, const int y) {
+    vector<int> moves;
+    
+    if ((x > 0) and (x < this->size)) {
+        moves.push_back(UP);
+    }
+    if ((y >= 0) and (y < this->size - 1)) {
+        moves.push_back(RIGHT);
+    }
+    if ((x >= 0) and (x < this->size - 1)) {
+        moves.push_back(DOWN);
+    }
+    if ((y > 0) and (y < this->size)) {
+        moves.push_back(LEFT);
+    }
+    
+    return moves;
+}
+
+
+vector<State *> State::getNeighbors() {
+    pair<int, int> pos = this->getBlank();
+    vector<int> moves = this->getMoves(pos.first, pos.second);
+    vector<State *> neighbors;
+    
+    for (int index = 0; index < moves.size(); index++) {
+        State *neighbor = new State(*this);
+        int **matrix = neighbor->getBoard();
+        
+        switch (moves[index]) {
+            case UP:
+                matrix[pos.first][pos.second] = matrix[pos.first-1][pos.second];
+                matrix[pos.first-1][pos.second] = BLANK;
+                break;
+            case DOWN:
+                matrix[pos.first][pos.second] = matrix[pos.first+1][pos.second];
+                matrix[pos.first+1][pos.second] = BLANK;
+                break;
+            case RIGHT:
+                matrix[pos.first][pos.second] = matrix[pos.first][pos.second+1];
+                matrix[pos.first][pos.second+1] = BLANK;
+                break;
+            case LEFT:
+                matrix[pos.first][pos.second] = matrix[pos.first][pos.second-1];
+                matrix[pos.first][pos.second-1] = BLANK;
+                break;
+        }
+        neighbors.push_back(neighbor);
+    }
+    
+    return neighbors;
+}
+
+
+State * State::getParent() {
+    return this->parent;
+}
+
+
 bool State::setBoard(const int _size, const int **_board) {
     if(this->size != _size) {
         return false;
@@ -140,7 +215,7 @@ bool State::setParent(State *_parent) {
 
 
 bool State::operator()(State *_stateA, State *_stateB) {
-    return _stateA->getCost() < _stateB->getCost();
+    return _stateA->getCost() > _stateB->getCost();
 }
 
 
@@ -155,7 +230,7 @@ bool State::operator>(State *_state) {
 
 
 bool State::operator==(State *_state) {
-    if ((this != _state) and (this->size == _state->getSize())) {
+    if (this->size == _state->getSize()) {
         int **matrix = _state->getBoard();
         for (int row = 0; row < this->size; row++) {
             for (int col = 0; col < this->size; col++) {
@@ -191,45 +266,6 @@ State& State::operator=(State *_state) {
     }
     
     return (*this);
-}
-
-
-State * State::getParent() {
-    return this->parent;
-}
-
-
-vector<State *> State::getNeighbors() {
-    pair<int, int> pos = this->getBlank();
-    vector<int> moves = this->getMoves(pos.first, pos.second);
-    vector<State *> neighbors;
-    
-    for (int index = 0; index < moves.size(); index++) {
-        State *neighbor = new State(*this);
-        int **matrix = neighbor->getBoard();
-        
-        switch (moves[index]) {
-            case UP:
-                matrix[pos.first][pos.second] = matrix[pos.first-1][pos.second];
-                matrix[pos.first-1][pos.second] = BLANK;
-                break;
-            case DOWN:
-                matrix[pos.first][pos.second] = matrix[pos.first+1][pos.second];
-                matrix[pos.first+1][pos.second] = BLANK;
-                break;
-            case RIGHT:
-                matrix[pos.first][pos.second] = matrix[pos.first][pos.second+1];
-                matrix[pos.first][pos.second+1] = BLANK;
-                break;
-            case LEFT:
-                matrix[pos.first][pos.second] = matrix[pos.first][pos.second-1];
-                matrix[pos.first][pos.second-1] = BLANK;
-                break;
-        }
-        neighbors.push_back(neighbor);
-    }
-    
-    return neighbors;
 }
 
 
@@ -305,42 +341,6 @@ bool State::initialize() {
 }
 
 
-pair<int, int> State::getBlank() {
-    pair<int, int> position;
-    
-    for (int row = 0; row < this->size; row++) {
-        for (int col = 0; col < this->size; col++) {
-            if (this->board[row][col] == BLANK) {
-                position = make_pair(row, col);
-                return position;
-            }
-        }
-    }
-    
-    return position;
-}
-
-
-vector<int> State::getMoves(const int x, const int y) {
-    vector<int> moves;
-    
-    if ((x > 0) and (x < this->size)) {
-        moves.push_back(UP);
-    }
-    if ((y >= 0) and (y < this->size - 1)) {
-        moves.push_back(RIGHT);
-    }
-    if ((x >= 0) and (x < this->size - 1)) {
-        moves.push_back(DOWN);
-    }
-    if ((y > 0) and (y < this->size)) {
-        moves.push_back(LEFT);
-    }
-    
-    return moves;
-}
-
-
 /*
  * Class Comparator
  */
@@ -352,12 +352,10 @@ bool Queue::operator()(State *_stateA, State *_stateB)
 
 
 bool Set::operator()(State *_stateA, State *_stateB) {
-//    if (_stateA == _stateB) {
-//        return false;
-//    } else {
+    if (_stateA != _stateB) {
         int **matrixA = _stateA->getBoard();
         int **matrixB = _stateB->getBoard();
-            
+        
         for (int row = 0; row < _stateA->getSize(); row++) {
             for (int col = 0; col < _stateA->getSize(); col++) {
                 if (matrixA[row][col] != matrixB[row][col]) {
@@ -365,6 +363,6 @@ bool Set::operator()(State *_stateA, State *_stateB) {
                 }
             }
         }
-        return false;
-//    }
+    }
+    return false;
 }

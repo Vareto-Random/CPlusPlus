@@ -30,7 +30,7 @@ Game::Game(int _size, State &_state) {
 
 
 Game::~Game() {
-    cout << "Game::~Game invoked" << endl;
+    //cout << "Game::~Game invoked" << endl;
     delete this->goal;
     delete this->start;
     
@@ -71,6 +71,40 @@ bool Game::readFile(string _fileName) {
 }
 
 
+bool Game::solvability() {
+    bool condA, condB, oddRow;
+    int inversions = 0;
+    vector<int> array;
+    
+    for (int row = 0; row < this->start->getSize(); row++) {
+        for (int col = 0; col < this->start->getSize(); col++) {
+            if (this->start->getElement(row, col) != BLANK) {
+                array.push_back(this->start->getElement(row, col));
+            }
+        }
+    }
+    
+    for (int index = 0; index < array.size() - 1; index++) {
+        for (int next = index + 1; next < array.size(); next++) {
+            if (array[index] > array[next]) {
+                inversions++;
+            }
+        }
+    }
+    
+    // http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
+    condA = ( (this->size % 2 != 0) and (inversions % 2 == 0) );
+    oddRow = ( (this->size - this->start->getBlank().first) % 2 != 0 );
+    condB = ( (this->size % 2 == 0) and (oddRow == (inversions % 2 == 0)) );
+    
+    if (!(condA or condB)) {
+        cerr << "This game is not solvable" << endl;
+    }
+    
+    return (condA or condB);
+}
+
+
 bool Game::solve() {
     this->heuristic = this->heuristicA;
 
@@ -86,15 +120,16 @@ bool Game::solve() {
 
     while (this->queue.size() > 0) {
         State *current = this->queue.top();
-        this->queue.pop();
-        cout << this->queueSet.erase(current) << endl;
-        this->historySet.insert(current);
-        
+    
         current->toString();
         cout << "-  -  -  -  -  -  -  -  -  -\n";
         for (set<State *>::iterator it = this->queueSet.begin(); it != this->queueSet.end(); it++) {
             (*it)->toString();
         }
+        
+        this->queue.pop();
+        this->historySet.insert(current);
+        cout << this->queueSet.erase(current) << "\n";
         
         vector<State *> neighbors = current->getNeighbors();
         for (int index = 0; index < neighbors.size(); index++) {
@@ -102,7 +137,7 @@ bool Game::solve() {
             //neighbors[index]->toString();
             
             if ( (this->queueSet.find(neighbors[index]) == this->queueSet.end()) and (this->historySet.find(neighbors[index]) == this->historySet.end()) ) {
-                
+            
                 cost = this->heuristic(*this->start, *neighbors[index], *this->goal);
                 neighbors[index]->setParent(current);
                 neighbors[index]->setLevel(neighbors[index]->getParent()->getLevel() + 1);
@@ -112,13 +147,15 @@ bool Game::solve() {
                 this->queueSet.insert(neighbors[index]);
                 
                 if (*(this->goal) == neighbors[index]) {
+                    cout << "----------------------------\n";
+                    neighbors[index]->toString();
                     return true;
                 }
             }
 
         }
-        cout << "----------------------------";
-        cin.get();
+        cout << "----------------------------\n";
+//        cin.get();
         
     }
     

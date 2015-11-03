@@ -12,7 +12,9 @@
 
 int main(int argc, const char * argv[]) {
     Game puzzle = Game(argv[1]);
-    puzzle.solve();
+    if(puzzle.solvability()) {
+        puzzle.solve();
+    }
 
 //    vector <int> temp;
 //    for (int row = 0; row < puzzle.size; row++) {

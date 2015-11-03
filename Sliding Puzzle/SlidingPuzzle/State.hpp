@@ -21,7 +21,6 @@
 #define SOUTH   "abaixo"
 #define WEST    "esquerda"
 
-#include <array>
 #include <iostream>
 #include <vector>
 
@@ -43,9 +42,11 @@ public:
     int getElement(int row, int col);
     int getLevel();
     int getSize();
-
-    State * getParent();
+    
+    pair<int, int> getBlank();
+    vector<int> getMoves(const int x, const int y);
     vector<State *> getNeighbors();
+    State * getParent();
     
     bool setBoard(const int _size, const int **_board);
     bool setCost(int _cost);
@@ -66,9 +67,6 @@ private:
     bool copy(int **_board);
     bool deallocate();
     bool initialize();
-    
-    pair<int, int> getBlank();
-    vector<int> getMoves(const int x, const int y);
     
     int** board;
     State *parent;

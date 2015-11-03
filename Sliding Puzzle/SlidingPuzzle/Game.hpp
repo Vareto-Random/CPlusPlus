@@ -33,6 +33,7 @@ public:
     State getStart();
 
     bool readFile(string _fileName);
+    bool solvability();
     bool solve();
     
 private:
@@ -45,7 +46,7 @@ private:
     State *goal;
     State *start;
     
-    set<State *, Set> queueSet;
+    set<State *, Queue> queueSet;
     set<State *, Set> historySet;
     
     vector<State *> allocations;

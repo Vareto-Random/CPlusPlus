@@ -86,14 +86,17 @@ bool Game::solve() {
 
     while (this->queue.size() > 0) {
         State *current = this->queue.top();
+
+        
+        current->toString();
+        cout << "-  -  -  -  -  -  -  -  -  -\n";
+        for (set<State *>::iterator it = this->queueSet.begin(); it != this->queueSet.end(); it++) {
+            (*it)->toString();
+        }
+        
         this->queue.pop();
         this->queueSet.erase(current);
         //this->history.push_back(current);
-        
-        current->toString();
-        for (set<State *>::iterator it; it != this->queueSet.end(); it++) {
-            it.
-        }
         
         vector<State *> neighbors = current->getNeighbors();
         for (int index = 0; index < neighbors.size(); index++) {
@@ -109,7 +112,7 @@ bool Game::solve() {
                 this->queue.push(neighbors[index]);
                 this->queueSet.insert(neighbors[index]);
                 
-                if (*(this->goal) == *neighbors[index]) {
+                if (*(this->goal) == neighbors[index]) {
                     return true;
                 }
             }

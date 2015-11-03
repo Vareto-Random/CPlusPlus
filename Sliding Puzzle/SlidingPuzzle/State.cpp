@@ -139,28 +139,28 @@ bool State::setParent(State *_parent) {
 }
 
 
-bool State::operator()(State &_stateA, State &_stateB) {
-    return _stateA.getCost() < _stateB.getCost();
+bool State::operator()(State *_stateA, State *_stateB) {
+    return _stateA->getCost() < _stateB->getCost();
 }
 
 
-bool State::operator<(State &_state) {
-    return this->cost < _state.getCost();
+bool State::operator<(State *_state) {
+    return this->cost < _state->getCost();
 }
 
 
-bool State::operator>(State &_state) {
-    return this->cost > _state.getCost();
+bool State::operator>(State *_state) {
+    return this->cost > _state->getCost();
 }
 
 
-bool State::operator==(State &_state) {
-    if (this != &_state) {
-        bool condA = (this->cost == _state.getCost());
-        bool condB = (this->size == _state.getSize());
+bool State::operator==(State *_state) {
+    if (this != _state) {
+        bool condA = (this->cost == _state->getCost());
+        bool condB = (this->size == _state->getSize());
         
         if (condA and condB) {
-            int **matrix = _state.getBoard();
+            int **matrix = _state->getBoard();
             for (int row = 0; row < this->size; row++) {
                 for (int col = 0; col < this->size; col++) {
                     if (this->board[row][col] != matrix[row][col]) {
@@ -175,23 +175,23 @@ bool State::operator==(State &_state) {
 }
 
 
-State& State::operator=(State &_state) {
-    if (this != &_state) {
-        if (this->size != _state.getSize()) {
+State& State::operator=(State *_state) {
+    if (this != _state) {
+        if (this->size != _state->getSize()) {
             this->deallocate();
         }
         
         if (this->board == NULL) {
-            this->allocate(_state.getSize());
+            this->allocate(_state->getSize());
         }
         
-        this->cost = _state.getCost();
-        this->level = _state.getLevel();
-        this->size = _state.getSize();
+        this->cost = _state->getCost();
+        this->level = _state->getLevel();
+        this->size = _state->getSize();
         
         for (int row = 0; row < this->size; row++) {
             for (int col = 0; col < this->size; col++) {
-                this->board[row][col] = _state.getElement(row, col);
+                this->board[row][col] = _state->getElement(row, col);
             }
         }
     }
@@ -344,4 +344,14 @@ vector<int> State::getMoves(const int x, const int y) {
     }
     
     return moves;
+}
+
+
+/*
+ * Class Comparator
+ */
+
+bool Comparator::operator()(State *_stateA, State *_stateB)
+{
+    return (_stateA->getCost() > _stateB->getCost());
 }

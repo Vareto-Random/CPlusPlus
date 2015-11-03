@@ -53,11 +53,11 @@ public:
     
     bool setParent(State *_parent);
 
-    bool operator()(State &_stateA, State &_stateB);
-    bool operator<(State &_state);
-    bool operator>(State &_state);
-    bool operator==(State &_state);
-    State& operator=(State &_state);
+    bool operator()(State *_stateA, State *_stateB);
+    bool operator<(State *_state);
+    bool operator>(State *_state);
+    bool operator==(State *_state);
+    State& operator=(State *_state);
 
     void toString();
     
@@ -76,6 +76,12 @@ private:
     unsigned int hash;
     unsigned int level;
     unsigned int size;
+};
+
+class Comparator {
+public:
+    bool operator()(State *_stateA, State *_stateb);
+    bool operator=(State *_stateA);
 };
 
 #endif /* State_hpp */

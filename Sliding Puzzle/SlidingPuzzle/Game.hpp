@@ -40,7 +40,8 @@ private:
     static int heuristicB(State &_start, State &_current, State &_goal);
     static int heuristicC(State &_start, State &_current, State &_goal);
     
-    priority_queue<State *> queue;
+//    priority_queue<State *> queue;
+    priority_queue<State *, vector<State*>, Comparator> queue;
 
     State *goal;
     State *start;

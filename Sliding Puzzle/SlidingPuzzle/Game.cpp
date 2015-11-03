@@ -107,10 +107,9 @@ bool Game::solvability() {
 
 
 bool Game::solve() {
-    this->heuristic = this->heuristicC;
-    int count = 0;
+    this->heuristic = this->heuristicA;
 
-    int cost = this->heuristic(this->start, this->start, this->goal);
+    int cost = this->heuristic(this->start);
     this->start->setCost(cost);
     this->start->setLevel(0);
     this->start->setParent(NULL);
@@ -118,61 +117,45 @@ bool Game::solve() {
     State *begin = new State(*this->start);
     this->allocations.push_back(begin);
     this->queue.push(begin);
-    this->queueHash.insert(begin->calcHash());
-    //this->queueSet.insert(begin);
-    //begin->toString();
+    //this->queueHash.insert(begin->calcHash());
+    this->queueSet.insert(begin);
 
     while (this->queue.size() > 0) {
         State *current = this->queue.top();
         this->queue.pop();
-        this->queueHash.erase(current->calcHash());
-        this->historyHash.insert(current->calcHash());
-        //this->queueSet.erase(current);
-        //this->historySet.insert(current);
-        count++;
-        
-        //current->toString();
-        //cout << "-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - \n";
+        //this->queueHash.erase(current->calcHash());
+        //this->historyHash.insert(current->calcHash());
+        this->queueSet.erase(current);
+        this->historySet.insert(current);
         
         vector<State *> neighbors = current->getNeighbors();
         for (int index = 0; index < neighbors.size(); index++) {
             this->allocations.push_back(neighbors[index]);
             
-            bool condA = ( this->queueHash.find(neighbors[index]->calcHash()) == this->queueHash.end() );
-            bool condB = ( this->historyHash.find(neighbors[index]->calcHash()) == this->historyHash.end() );
+            //bool condA = ( this->queueHash.find(neighbors[index]->calcHash()) == this->queueHash.end() );
+            //bool condB = ( this->historyHash.find(neighbors[index]->calcHash()) == this->historyHash.end() );
 
-            //bool condA = ( this->queueSet.find(neighbors[index]) == this->queueSet.end() );
-            //bool condB = ( this->historySet.find(neighbors[index]) == this->historySet.end() );
+            bool condA = ( this->queueSet.find(neighbors[index]) == this->queueSet.end() );
+            bool condB = ( this->historySet.find(neighbors[index]) == this->historySet.end() );
             
             if (condA and condB) {
-                cost = this->heuristic(this->start, neighbors[index], this->goal);
+                cost = this->heuristic(neighbors[index]);
                 neighbors[index]->setParent(current);
                 neighbors[index]->setLevel(neighbors[index]->getParent()->getLevel() + 1);
                 neighbors[index]->setCost(cost + neighbors[index]->getLevel());
                 //neighbors[index]->toString();
                 
                 this->queue.push(neighbors[index]);
-                this->queueHash.insert(neighbors[index]->calcHash());
-                //this->queueSet.insert(neighbors[index]);
-                neighbors[index]->toString();
+                //this->queueHash.insert(neighbors[index]->calcHash());
+                this->queueSet.insert(neighbors[index]);
                 
-                if (*(this->goal) == neighbors[index]) {
-                    //cout << "--------------------------------------------------------\n";
-                    neighbors[index]->toString();
+                if ((*(this->goal) == neighbors[index]) or (*(this->goal) == current) ) {
                     this->result = neighbors[index];
-                    cout << "\nCOUNT: " << count << endl;
                     return true;
                 }
             }
-
         }
-        cout << "Queue: " << queue.size() << " Hash: " << queueHash.size() << " History: " << historyHash.size() << endl;
-        cout << "--------------------------------------------------------\n";
-        //cin.get();
-        
     }
-    
-    cout << "\nCOUNT: " << count << endl;
     
     return false;
 }
@@ -183,6 +166,7 @@ bool Game::showSteps() {
     vector<int> steps;
     
     while (current->getParent() != NULL) {
+        //cout << current->getMove() << endl;
         steps.push_back(current->getMove());
         current = current->getParent();
     }
@@ -213,12 +197,17 @@ bool Game::showSteps() {
  * Private Methods
  */
 
-int Game::heuristicA(State *_start, State *_current, State *_goal) {
-    int distance = 0;
-    for (int row = 0; row < _start->getSize(); row++) {
-        for (int col = 0; col < _start->getSize(); col++) {
-            if (_goal->getElement(row, col) != _current->getElement(row, col)) {
-                distance++;
+int Game::heuristicA(State *_state) {
+    int distance = 0, condA = 0, condB = 0;
+    
+    for (int row = 0; row < _state->getSize(); row++) {
+        for (int col = 0; col < _state->getSize(); col++) {
+            if(_state->getElement(row, col) != BLANK) {
+                condA = ( abs((_state->getElement(row, col) /  _state->getSize()) - row) != 0 );
+                condB = ( abs((_state->getElement(row, col) %  _state->getSize()) - col) != 0 );
+                if(condA or condB) {
+                    distance++;
+                }
             }
         }
     }
@@ -226,12 +215,17 @@ int Game::heuristicA(State *_start, State *_current, State *_goal) {
 }
 
 
-int Game::heuristicB(State *_start, State *_current, State *_goal) {
-    int distance = 0;
-    for (int row = 0; row < _start->getSize(); row++) {
-        for (int col = 0; col < _start->getSize(); col++) {
-            if (_goal->getElement(row, col) != _current->getElement(row, col)) {
-                distance++;
+int Game::heuristicB(State *_state) {
+    int distance = 0, condA = 0, condB = 0;
+    
+    for (int row = 0; row < _state->getSize(); row++) {
+        for (int col = 0; col < _state->getSize(); col++) {
+            if(_state->getElement(row, col) != BLANK) {
+                condA = ( abs((_state->getElement(row, col) /  _state->getSize()) - row) != 0 );
+                condB = ( abs((_state->getElement(row, col) %  _state->getSize()) - col) != 0 );
+                if(condA or condB) {
+                    distance++;
+                }
             }
         }
     }
@@ -239,18 +233,17 @@ int Game::heuristicB(State *_start, State *_current, State *_goal) {
 }
 
 
-int Game::heuristicC(State *_start, State *_current, State *_goal) {
+int Game::heuristicC(State *_state) {
     int distance = 0, calcA = 0, calcB = 0;
     
-    for (int row = 0; row < _current->getSize(); row++) {
-        for (int col = 0; col < _current->getSize(); col++) {
-            if(_current->getElement(row, col) != BLANK) {
-                calcA = abs( (_current->getElement(row, col) /  _current->getSize()) - row );
-                calcB = abs( (_current->getElement(row, col) %  _current->getSize()) - col );
+    for (int row = 0; row < _state->getSize(); row++) {
+        for (int col = 0; col < _state->getSize(); col++) {
+            if(_state->getElement(row, col) != BLANK) {
+                calcA = abs( (_state->getElement(row, col) /  _state->getSize()) - row );
+                calcB = abs( (_state->getElement(row, col) %  _state->getSize()) - col );
                 distance = distance + calcA + calcB;
             }
         }
     }
-    
     return distance;
 }

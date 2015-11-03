@@ -39,9 +39,9 @@ public:
     bool showSteps();
     
 private:
-    static int heuristicA(State *_start, State *_current, State *_goal);
-    static int heuristicB(State *_start, State *_current, State *_goal);
-    static int heuristicC(State *_start, State *_current, State *_goal);
+    static int heuristicA(State *_state);
+    static int heuristicB(State *_state);
+    static int heuristicC(State *_state);
     
     priority_queue<State *, vector<State *>, Queue> queue;
 
@@ -49,18 +49,18 @@ private:
     State *start;
     State *result;
     
-    set<long> queueHash;
-    set<long> historyHash;
+    //set<long> queueHash;
+    //set<long> historyHash;
     
-//    set<State *, Set> queueSet;
-//    set<State *, Set> historySet;
+    set<State *, Set> queueSet;
+    set<State *, Set> historySet;
     
     vector<State *> allocations;
     vector<string> rawInput;
 
     unsigned int size;
     
-    int (*heuristic)(State *_start, State *_current, State *_goal) = NULL;
+    int (*heuristic)(State *_state) = NULL;
     
 };
 

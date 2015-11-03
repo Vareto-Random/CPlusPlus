@@ -14,6 +14,7 @@ int main(int argc, const char * argv[]) {
     Game puzzle = Game(argv[1]);
     if(puzzle.solvability()) {
         puzzle.solve();
+        puzzle.showSteps();
     }
 
 //    vector <int> temp;

@@ -35,6 +35,7 @@ public:
     bool readFile(string _fileName);
     bool solvability();
     bool solve();
+    bool showSteps();
     
 private:
     static int heuristicA(State *_start, State *_current, State *_goal);
@@ -45,6 +46,7 @@ private:
 
     State *goal;
     State *start;
+    State *result;
     
     set<long> queueHash;
     set<long> historyHash;

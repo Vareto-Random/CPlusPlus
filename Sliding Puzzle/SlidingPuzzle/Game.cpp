@@ -109,7 +109,6 @@ bool Game::solvability() {
 bool Game::solve() {
     this->heuristic = this->heuristicB;
     int count = 0;
-    State * result;
 
     int cost = this->heuristic(this->start, this->start, this->goal);
     this->start->setCost(cost);
@@ -160,7 +159,7 @@ bool Game::solve() {
                 if (*(this->goal) == neighbors[index]) {
                     //cout << "--------------------------------------------------------\n";
                     neighbors[index]->toString();
-                    result = neighbors[index];
+                    this->result = neighbors[index];
                     cout << "\nCOUNT: " << count << endl;
                     return true;
                 }
@@ -176,6 +175,37 @@ bool Game::solve() {
     cout << "\nCOUNT: " << count << endl;
     
     return false;
+}
+
+
+bool Game::showSteps() {
+    State *current = this->result;
+    vector<int> steps;
+    
+    while (current->getParent() != NULL) {
+        steps.push_back(current->getMove());
+        current = current->getParent();
+    }
+    
+    cout << steps.size() << endl;
+    for (long index = steps.size() - 1; index >= 0; index--) {
+        switch (steps[index]) {
+            case UP:
+                cout << "acima" << endl;
+                break;
+            case DOWN:
+                cout << "abaixo" << endl;
+                break;
+            case RIGHT:
+                cout << "direita" << endl;
+                break;
+            case LEFT:
+                cout << "esquerda" << endl;
+                break;
+        }
+    }
+    
+    return true;
 }
 
 

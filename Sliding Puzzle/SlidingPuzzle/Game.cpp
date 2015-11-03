@@ -245,13 +245,12 @@ int Game::heuristicC(State *_start, State *_current, State *_goal) {
     for (int row = 0; row < _current->getSize(); row++) {
         for (int col = 0; col < _current->getSize(); col++) {
             if(_current->getElement(row, col) != BLANK) {
-                calcA = abs( ((_current->getElement(row, col) - 1) /  _current->getSize()) - row );
-                calcB = abs( ((_current->getElement(row, col) - 1) %  _current->getSize()) - col );
+                calcA = abs( (_current->getElement(row, col) /  _current->getSize()) - row );
+                calcB = abs( (_current->getElement(row, col) %  _current->getSize()) - col );
                 distance = distance + calcA + calcB;
             }
         }
     }
     
-    cout << distance << endl;
     return distance;
 }

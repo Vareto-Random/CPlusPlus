@@ -43,6 +43,7 @@ public:
     int getElement(int row, int col);
     int getHash();
     int getLevel();
+    int getMove();
     int getSize();
     
     pair<int, int> getBlank();
@@ -53,6 +54,7 @@ public:
     bool setBoard(const int _size, const int **_board);
     bool setCost(int _cost);
     bool setLevel(int _level);
+    bool setMove(int _move);
     
     bool setParent(State *_parent);
 
@@ -75,6 +77,7 @@ private:
     unsigned int cost;
     unsigned int hash;
     unsigned int level;
+    unsigned int move;
     unsigned int size;
 };
 

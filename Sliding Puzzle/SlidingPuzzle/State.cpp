@@ -109,6 +109,11 @@ int State::getLevel() {
 }
 
 
+int State::getMove() {
+    return this->move;
+}
+
+
 int State::getSize() {
     return this->size;
 }
@@ -163,18 +168,22 @@ vector<State *> State::getNeighbors() {
             case UP:
                 matrix[pos.first][pos.second] = matrix[pos.first-1][pos.second];
                 matrix[pos.first-1][pos.second] = BLANK;
+                neighbor->setMove(UP);
                 break;
             case DOWN:
                 matrix[pos.first][pos.second] = matrix[pos.first+1][pos.second];
                 matrix[pos.first+1][pos.second] = BLANK;
+                neighbor->setMove(DOWN);
                 break;
             case RIGHT:
                 matrix[pos.first][pos.second] = matrix[pos.first][pos.second+1];
                 matrix[pos.first][pos.second+1] = BLANK;
+                neighbor->setMove(RIGHT);
                 break;
             case LEFT:
                 matrix[pos.first][pos.second] = matrix[pos.first][pos.second-1];
                 matrix[pos.first][pos.second-1] = BLANK;
+                neighbor->setMove(LEFT);
                 break;
         }
         neighbors.push_back(neighbor);
@@ -212,6 +221,12 @@ bool State::setCost(int _cost) {
 
 bool State::setLevel(int _level) {
     this->level = _level;
+    return true;
+}
+
+
+bool State::setMove(int _move) {
+    this->move = _move;
     return true;
 }
 

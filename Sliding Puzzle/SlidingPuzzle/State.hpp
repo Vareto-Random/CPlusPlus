@@ -78,10 +78,14 @@ private:
     unsigned int size;
 };
 
-class Comparator {
+class Queue {
 public:
-    bool operator()(State *_stateA, State *_stateb);
-    bool operator=(State *_stateA);
+    bool operator()(State *_stateA, State *_stateB);
+};
+
+class Set {
+public:
+    bool operator()(State *_stateA, State *_stateB);
 };
 
 #endif /* State_hpp */

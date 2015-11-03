@@ -40,17 +40,15 @@ private:
     static int heuristicB(State &_start, State &_current, State &_goal);
     static int heuristicC(State &_start, State &_current, State &_goal);
     
-//    priority_queue<State *> queue;
-    priority_queue<State *, vector<State*>, Comparator> queue;
+    priority_queue<State *, vector<State*>, Queue> queue;
 
     State *goal;
     State *start;
     
-    set<State *> queueSet;
-    set<State *> historySet;
+    set<State *, Set> queueSet;
+    set<State *, Set> historySet;
     
     vector<State *> allocations;
-//    vector<State *> history;
     vector<string> rawInput;
 
     unsigned int size;

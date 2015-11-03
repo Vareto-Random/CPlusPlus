@@ -351,7 +351,26 @@ vector<int> State::getMoves(const int x, const int y) {
  * Class Comparator
  */
 
-bool Comparator::operator()(State *_stateA, State *_stateB)
+bool Queue::operator()(State *_stateA, State *_stateB)
 {
     return (_stateA->getCost() > _stateB->getCost());
+}
+
+
+bool Set::operator()(State *_stateA, State *_stateB) {
+    if (_stateA == _stateB) {
+        return false;
+    } else {
+        int **matrixA = _stateA->getBoard();
+        int **matrixB = _stateB->getBoard();
+            
+        for (int row = 0; row < _stateA->getSize(); row++) {
+            for (int col = 0; col < _stateA->getSize(); col++) {
+                if (matrixA[row][col] != matrixB[row][col]) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }

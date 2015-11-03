@@ -12,6 +12,7 @@
 #define ASCENDING(a,b) (a.getCost() < b.getCost ? a : b)
 #define DESCENDING(a,b) (a.getCost() < b.getCost ? b : a)
 
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <queue>

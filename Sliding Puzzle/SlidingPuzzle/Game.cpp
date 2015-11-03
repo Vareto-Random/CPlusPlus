@@ -107,7 +107,7 @@ bool Game::solvability() {
 
 
 bool Game::solve() {
-    this->heuristic = this->heuristicB;
+    this->heuristic = this->heuristicC;
     int count = 0;
 
     int cost = this->heuristic(this->start, this->start, this->goal);
@@ -240,17 +240,18 @@ int Game::heuristicB(State *_start, State *_current, State *_goal) {
 
 
 int Game::heuristicC(State *_start, State *_current, State *_goal) {
-    int distanceGoal = 0;
-    int distanceStart = 0;
-    for (int row = 0; row < _start->getSize(); row++) {
-        for (int col = 0; col < _start->getSize(); col++) {
-            if (_start->getElement(row, col) != _current->getElement(row, col)) {
-                distanceStart++;
-            }
-            if (_goal->getElement(row, col) != _current->getElement(row, col)) {
-                distanceGoal++;
+    int distance = 0, calcA = 0, calcB = 0;
+    
+    for (int row = 0; row < _current->getSize(); row++) {
+        for (int col = 0; col < _current->getSize(); col++) {
+            if(_current->getElement(row, col) != BLANK) {
+                calcA = abs( ((_current->getElement(row, col) - 1) /  _current->getSize()) - row );
+                calcB = abs( ((_current->getElement(row, col) - 1) %  _current->getSize()) - col );
+                distance = distance + calcA + calcB;
             }
         }
     }
-    return 2*(distanceStart + distanceGoal);
+    
+    cout << distance << endl;
+    return distance;
 }

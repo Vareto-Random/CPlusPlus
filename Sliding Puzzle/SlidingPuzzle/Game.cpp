@@ -107,7 +107,7 @@ bool Game::solvability() {
 
 
 bool Game::solve() {
-    this->heuristic = this->heuristicA;
+    this->heuristic = this->heuristicC;
 
     int cost = this->heuristic(this->start);
     this->start->setCost(cost);

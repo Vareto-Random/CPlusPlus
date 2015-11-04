@@ -9,7 +9,7 @@
 #ifndef State_hpp
 #define State_hpp
 
-#define BLANK -1234
+#define BLANK 0
 
 #define UP      1
 #define RIGHT   2

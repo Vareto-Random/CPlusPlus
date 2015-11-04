@@ -71,6 +71,32 @@ bool Game::readFile(string _fileName) {
 }
 
 
+bool Game::writeFile() {
+    if(this->isSolved) {
+        ofstream outfile("output.txt", ofstream::out);
+        
+        outfile << this->steps.size() << endl;
+        for (long index = steps.size() - 1; index >= 0; index--) {
+            switch (this->steps[index]) {
+                case UP:
+                    outfile << "acima" << endl;
+                    break;
+                case DOWN:
+                    outfile << "abaixo" << endl;
+                    break;
+                case RIGHT:
+                    outfile << "direita" << endl;
+                    break;
+                case LEFT:
+                    outfile << "esquerda" << endl;
+                    break;
+            }
+        }
+    }
+    return this->isSolved;
+}
+
+
 bool Game::solvability() {
     bool condA, condB, oddRow;
     int inversions = 0;
@@ -101,7 +127,6 @@ bool Game::solvability() {
     if (!(condA or condB)) {
         cerr << "This game is not solvable" << endl;
     }
-    
     return (condA or condB);
 }
 
@@ -109,6 +134,7 @@ bool Game::solvability() {
 bool Game::solve() {
     this->heuristic = this->heuristicC;
 
+    int count = 0;
     int cost = this->heuristic(this->start);
     this->start->setCost(cost);
     this->start->setLevel(0);
@@ -127,6 +153,7 @@ bool Game::solve() {
         this->historyHash.insert(current->calcHash());
         //this->queueSet.erase(current);
         //this->historySet.insert(current);
+        count++;
         
         vector<State *> neighbors = current->getNeighbors();
         for (int index = 0; index < neighbors.size(); index++) {
@@ -149,47 +176,21 @@ bool Game::solve() {
                 this->queueHash.insert(neighbors[index]->calcHash());
                 //this->queueSet.insert(neighbors[index]);
                 
-                if ((*(this->goal) == neighbors[index]) or (*(this->goal) == current) ) {
+                if (*(this->goal) == neighbors[index]) {
+                    this->isSolved = true;
                     this->result = neighbors[index];
+                    current = neighbors[index];;
+                    while (current->getParent() != NULL) {
+                        steps.push_back(current->getMove());
+                        current = current->getParent();
+                    }
+                    //cout << "COUNT: " << count << endl;
                     return true;
                 }
             }
         }
     }
-    
     return false;
-}
-
-
-bool Game::showSteps() {
-    State *current = this->result;
-    vector<int> steps;
-    
-    while (current->getParent() != NULL) {
-        //cout << current->getMove() << endl;
-        steps.push_back(current->getMove());
-        current = current->getParent();
-    }
-    
-    cout << steps.size() << endl;
-    for (long index = steps.size() - 1; index >= 0; index--) {
-        switch (steps[index]) {
-            case UP:
-                cout << "acima" << endl;
-                break;
-            case DOWN:
-                cout << "abaixo" << endl;
-                break;
-            case RIGHT:
-                cout << "direita" << endl;
-                break;
-            case LEFT:
-                cout << "esquerda" << endl;
-                break;
-        }
-    }
-    
-    return true;
 }
 
 
@@ -198,6 +199,7 @@ bool Game::showSteps() {
  */
 
 int Game::heuristicA(State *_state) {
+    // Misplaced Tiles
     int distance = 0, condA = 0, condB = 0;
     
     for (int row = 0; row < _state->getSize(); row++) {
@@ -216,24 +218,7 @@ int Game::heuristicA(State *_state) {
 
 
 int Game::heuristicB(State *_state) {
-    int distance = 0, condA = 0, condB = 0;
-    
-    for (int row = 0; row < _state->getSize(); row++) {
-        for (int col = 0; col < _state->getSize(); col++) {
-            if(_state->getElement(row, col) != BLANK) {
-                condA = ( abs((_state->getElement(row, col) /  _state->getSize()) - row) != 0 );
-                condB = ( abs((_state->getElement(row, col) %  _state->getSize()) - col) != 0 );
-                if(condA or condB) {
-                    distance++;
-                }
-            }
-        }
-    }
-    return (2 * distance);
-}
-
-
-int Game::heuristicC(State *_state) {
+    // Manhattan Distance
     int distance = 0, calcA = 0, calcB = 0;
     
     for (int row = 0; row < _state->getSize(); row++) {
@@ -246,4 +231,21 @@ int Game::heuristicC(State *_state) {
         }
     }
     return distance;
+}
+
+
+int Game::heuristicC(State *_state) {
+    // 2 X Manhattan Distance
+    int distance = 0, calcA = 0, calcB = 0;
+    
+    for (int row = 0; row < _state->getSize(); row++) {
+        for (int col = 0; col < _state->getSize(); col++) {
+            if(_state->getElement(row, col) != BLANK) {
+                calcA = abs( (_state->getElement(row, col) /  _state->getSize()) - row );
+                calcB = abs( (_state->getElement(row, col) %  _state->getSize()) - col );
+                distance = distance + calcA + calcB;
+            }
+        }
+    }
+    return (2 * distance);
 }

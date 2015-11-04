@@ -36,12 +36,14 @@ public:
     bool readFile(string _fileName);
     bool solvability();
     bool solve();
-    bool showSteps();
+    bool writeFile();
     
 private:
     static int heuristicA(State *_state);
     static int heuristicB(State *_state);
     static int heuristicC(State *_state);
+    
+    bool isSolved;
     
     priority_queue<State *, vector<State *>, Queue> queue;
 
@@ -56,7 +58,9 @@ private:
     //set<State *, Set> historySet;
     
     vector<State *> allocations;
+    vector<int> steps;
     vector<string> rawInput;
+    vector<string> rawOutput;
 
     unsigned int size;
     

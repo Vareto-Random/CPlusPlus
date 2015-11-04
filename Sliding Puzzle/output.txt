@@ -1,0 +1,6 @@
+5
+abaixo
+direita
+acima
+esquerda
+esquerda

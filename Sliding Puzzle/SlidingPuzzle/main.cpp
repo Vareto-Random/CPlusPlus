@@ -14,8 +14,8 @@ int main(int argc, const char * argv[]) {
     Game puzzle = Game(argv[1]);
     if(puzzle.solvability()) {
         puzzle.solve();
-        puzzle.writeFile(true);
     }
+    puzzle.writeFile(true);
     
     return 0;
 }

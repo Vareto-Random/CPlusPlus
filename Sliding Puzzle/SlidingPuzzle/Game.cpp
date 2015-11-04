@@ -15,6 +15,8 @@
 Game::Game(string _fileName) {
     this->readFile(_fileName);
 
+    this->isSolved = false;
+    
     this->goal = new State(this->size);
     this->start = new State(this->size, this->rawInput);
 }
@@ -23,6 +25,8 @@ Game::Game(string _fileName) {
 Game::Game(int _size, State &_state) {
     this->rawInput.clear();
     this->size = _size;
+    
+    this->isSolved = false;
     
     this->goal = new State(this->size);
     this->start = new State(_state);
@@ -70,38 +74,6 @@ bool Game::readFile(string _fileName) {
     }
 }
 
-
-bool Game::writeFile(bool _print) {
-    if(this->isSolved) {
-        ofstream outfile("output.txt", ofstream::out);
-        
-        if (_print) {cout << this->steps.size() << endl;}
-        outfile << this->steps.size() << endl;
-        for (long index = steps.size() - 1; index >= 0; index--) {
-            switch (this->steps[index]) {
-                case UP:
-                    if(_print) {cout << "acima" << endl;}
-                    outfile << "acima" << endl;
-                    break;
-                case DOWN:
-                    if(_print) {cout << "abaixo" << endl;}
-                    outfile << "abaixo" << endl;
-                    break;
-                case RIGHT:
-                    if(_print) {cout << "direita" << endl;}
-                    outfile << "direita" << endl;
-                    break;
-                case LEFT:
-                    if(_print) {cout << "esquerda" << endl;}
-                    outfile << "esquerda" << endl;
-                    break;
-            }
-        }
-    }
-    return this->isSolved;
-}
-
-
 bool Game::solvability() {
     bool condA, condB, oddRow;
     int inversions = 0;
@@ -137,7 +109,7 @@ bool Game::solvability() {
 
 
 bool Game::solve() {
-    this->heuristic = this->heuristicC;
+    this->heuristic = this->heuristicB;
 
     int count = 0;
     int cost = this->heuristic(this->start);
@@ -197,6 +169,40 @@ bool Game::solve() {
     }
     return false;
 }
+
+
+bool Game::writeFile(bool _print) {
+    ofstream outfile("output.txt", ofstream::out);
+
+    if(this->isSolved) {
+        if (_print) {cout << this->steps.size() << endl;}
+        outfile << this->steps.size() << endl;
+        for (long index = steps.size() - 1; index >= 0; index--) {
+            switch (this->steps[index]) {
+                case UP:
+                    if(_print) {cout << "acima" << endl;}
+                    outfile << "acima" << endl;
+                    break;
+                case DOWN:
+                    if(_print) {cout << "abaixo" << endl;}
+                    outfile << "abaixo" << endl;
+                    break;
+                case RIGHT:
+                    if(_print) {cout << "direita" << endl;}
+                    outfile << "direita" << endl;
+                    break;
+                case LEFT:
+                    if(_print) {cout << "esquerda" << endl;}
+                    outfile << "esquerda" << endl;
+                    break;
+            }
+        }
+    } else {
+        outfile << "Sem solução" << endl;
+    }
+    return this->isSolved;
+}
+
 
 
 /*

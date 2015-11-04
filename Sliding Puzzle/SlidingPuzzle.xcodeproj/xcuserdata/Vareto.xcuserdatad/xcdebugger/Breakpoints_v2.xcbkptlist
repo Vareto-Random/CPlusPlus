@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SlidingPuzzle/Game.cpp"
-            timestampString = "468353060.081457"
+            timestampString = "468355670.540718"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "Game::solvability()"
             landmarkType = "5">
          </BreakpointContent>

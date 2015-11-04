@@ -71,23 +71,28 @@ bool Game::readFile(string _fileName) {
 }
 
 
-bool Game::writeFile() {
+bool Game::writeFile(bool _print) {
     if(this->isSolved) {
         ofstream outfile("output.txt", ofstream::out);
         
+        if (_print) {cout << this->steps.size() << endl;}
         outfile << this->steps.size() << endl;
         for (long index = steps.size() - 1; index >= 0; index--) {
             switch (this->steps[index]) {
                 case UP:
+                    if(_print) {cout << "acima" << endl;}
                     outfile << "acima" << endl;
                     break;
                 case DOWN:
+                    if(_print) {cout << "abaixo" << endl;}
                     outfile << "abaixo" << endl;
                     break;
                 case RIGHT:
+                    if(_print) {cout << "direita" << endl;}
                     outfile << "direita" << endl;
                     break;
                 case LEFT:
+                    if(_print) {cout << "esquerda" << endl;}
                     outfile << "esquerda" << endl;
                     break;
             }

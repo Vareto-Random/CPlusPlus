@@ -36,7 +36,7 @@ public:
     bool readFile(string _fileName);
     bool solvability();
     bool solve();
-    bool writeFile();
+    bool writeFile(bool _print = false);
     
 private:
     static int heuristicA(State *_state);

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "State::State(int, std::__1::vector&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, std::__1::allocator&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; &gt; &gt;):State.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "State::State(State&amp;):State.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "_state.getElement(row, col)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "State::allocate(int):State.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "State::operator=(State&amp;):State.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Game::solve():Game.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "this-&gt;queue.size()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

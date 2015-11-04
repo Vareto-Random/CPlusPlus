@@ -36,15 +36,15 @@ public:
     
     ~State();
     
-    int calcHash();
-    
     int ** getBoard();
     int getCost();
     int getElement(int row, int col);
-    int getHash();
     int getLevel();
     int getMove();
     int getSize();
+
+    long calcHash();
+    long getHash();
     
     pair<int, int> getBlank();
     vector<int> getMoves(const int x, const int y);
@@ -53,6 +53,7 @@ public:
     
     bool setBoard(const int _size, const int **_board);
     bool setCost(int _cost);
+    bool setHash(long _key);
     bool setLevel(int _level);
     bool setMove(int _move);
     
@@ -73,9 +74,9 @@ private:
     bool initialize();
     
     int** board;
+    long hash;
     State *parent;
     unsigned int cost;
-    unsigned int hash;
     unsigned int level;
     unsigned int move;
     unsigned int size;

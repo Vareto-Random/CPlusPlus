@@ -117,26 +117,26 @@ bool Game::solve() {
     State *begin = new State(*this->start);
     this->allocations.push_back(begin);
     this->queue.push(begin);
-    //this->queueHash.insert(begin->calcHash());
-    this->queueSet.insert(begin);
+    this->queueHash.insert(begin->calcHash());
+    //this->queueSet.insert(begin);
 
     while (this->queue.size() > 0) {
         State *current = this->queue.top();
         this->queue.pop();
-        //this->queueHash.erase(current->calcHash());
-        //this->historyHash.insert(current->calcHash());
-        this->queueSet.erase(current);
-        this->historySet.insert(current);
+        this->queueHash.erase(current->calcHash());
+        this->historyHash.insert(current->calcHash());
+        //this->queueSet.erase(current);
+        //this->historySet.insert(current);
         
         vector<State *> neighbors = current->getNeighbors();
         for (int index = 0; index < neighbors.size(); index++) {
             this->allocations.push_back(neighbors[index]);
             
-            //bool condA = ( this->queueHash.find(neighbors[index]->calcHash()) == this->queueHash.end() );
-            //bool condB = ( this->historyHash.find(neighbors[index]->calcHash()) == this->historyHash.end() );
+            bool condA = ( this->queueHash.find(neighbors[index]->calcHash()) == this->queueHash.end() );
+            bool condB = ( this->historyHash.find(neighbors[index]->calcHash()) == this->historyHash.end() );
 
-            bool condA = ( this->queueSet.find(neighbors[index]) == this->queueSet.end() );
-            bool condB = ( this->historySet.find(neighbors[index]) == this->historySet.end() );
+            //bool condA = ( this->queueSet.find(neighbors[index]) == this->queueSet.end() );
+            //bool condB = ( this->historySet.find(neighbors[index]) == this->historySet.end() );
             
             if (condA and condB) {
                 cost = this->heuristic(neighbors[index]);
@@ -146,8 +146,8 @@ bool Game::solve() {
                 //neighbors[index]->toString();
                 
                 this->queue.push(neighbors[index]);
-                //this->queueHash.insert(neighbors[index]->calcHash());
-                this->queueSet.insert(neighbors[index]);
+                this->queueHash.insert(neighbors[index]->calcHash());
+                //this->queueSet.insert(neighbors[index]);
                 
                 if ((*(this->goal) == neighbors[index]) or (*(this->goal) == current) ) {
                     this->result = neighbors[index];

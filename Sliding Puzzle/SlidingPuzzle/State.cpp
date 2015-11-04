@@ -68,22 +68,6 @@ State::~State() {
 }
 
 
-int State::calcHash() {
-    int total = 0;
-    
-    for (int row = 0; row < this->size; row++) {
-        for (int col = 0; col < this->size; col++) {
-            if(this->board[row][col] != BLANK) {
-                total = total + ( this->board[row][col] * ((int) (row+31)/(col+1)) * (col+23)/(row+1) ) ;
-            }
-        }
-    }
-    
-    this->hash = total;
-    return total;
-}
-
-
 int ** State::getBoard() {
     return this->board;
 }
@@ -99,11 +83,6 @@ int State::getElement(int row, int col) {
 }
 
 
-int State::getHash() {
-    return this->hash;
-}
-
-
 int State::getLevel() {
     return this->level;
 }
@@ -116,6 +95,31 @@ int State::getMove() {
 
 int State::getSize() {
     return this->size;
+}
+
+
+long State::calcHash() {
+    string key;
+    std::hash<string> hashing;
+    
+    for (int row = 0; row < this->size; row++) {
+        for (int col = 0; col < this->size; col++) {
+            if(this->board[row][col] != BLANK) {
+                //total = total + ( this->board[row][col] * ((int) (row+31)/(col+1)) * (col+23)/(row+1) ) ;
+                key.append(std::to_string(this->board[row][col]));
+            } else {
+                key.append("_");
+            }
+        }
+    }
+    
+    this->hash = hashing(key);
+    return this->hash;
+}
+
+
+long State::getHash() {
+    return this->hash;
 }
 
 

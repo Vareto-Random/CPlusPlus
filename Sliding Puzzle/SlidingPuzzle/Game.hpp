@@ -54,9 +54,6 @@ private:
     set<long> queueHash;
     set<long> historyHash;
     
-    //set<State *, Set> queueSet;
-    //set<State *, Set> historySet;
-    
     vector<State *> allocations;
     vector<int> steps;
     vector<string> rawInput;
@@ -65,7 +62,6 @@ private:
     unsigned int size;
     
     int (*heuristic)(State *_state) = NULL;
-    
 };
 
 #endif /* Game_hpp */

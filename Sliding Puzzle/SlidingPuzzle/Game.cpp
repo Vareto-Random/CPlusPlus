@@ -34,7 +34,6 @@ Game::Game(int _size, State &_state) {
 
 
 Game::~Game() {
-    //cout << "Game::~Game invoked" << endl;
     delete this->goal;
     delete this->start;
     
@@ -74,6 +73,7 @@ bool Game::readFile(string _fileName) {
     }
 }
 
+
 bool Game::solvability() {
     bool condA, condB, oddRow;
     int inversions = 0;
@@ -86,7 +86,6 @@ bool Game::solvability() {
             }
         }
     }
-    
     for (int index = 0; index < array.size() - 1; index++) {
         for (int next = index + 1; next < array.size(); next++) {
             if (array[index] > array[next]) {
@@ -97,7 +96,6 @@ bool Game::solvability() {
     
     // http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
     condA = ( (this->size % 2 != 0) and (inversions % 2 == 0) );
-    //oddRow = ( (this->size - this->start->getBlank().first) % 2 != 0 );
     oddRow = ( (this->start->getBlank().first + 1) % 2 != 0 );
     condB = ( (this->size % 2 == 0) and (oddRow == (inversions % 2 == 0)) );
     
@@ -111,7 +109,6 @@ bool Game::solvability() {
 bool Game::solve() {
     this->heuristic = this->heuristicB;
 
-    int count = 0;
     int cost = this->heuristic(this->start);
     this->start->setCost(cost);
     this->start->setLevel(0);
@@ -121,16 +118,12 @@ bool Game::solve() {
     this->allocations.push_back(begin);
     this->queue.push(begin);
     this->queueHash.insert(begin->calcHash());
-    //this->queueSet.insert(begin);
 
     while (this->queue.size() > 0) {
         State *current = this->queue.top();
         this->queue.pop();
         this->queueHash.erase(current->calcHash());
         this->historyHash.insert(current->calcHash());
-        //this->queueSet.erase(current);
-        //this->historySet.insert(current);
-        count++;
         
         vector<State *> neighbors = current->getNeighbors();
         for (int index = 0; index < neighbors.size(); index++) {
@@ -138,20 +131,15 @@ bool Game::solve() {
             
             bool condA = ( this->queueHash.find(neighbors[index]->calcHash()) == this->queueHash.end() );
             bool condB = ( this->historyHash.find(neighbors[index]->calcHash()) == this->historyHash.end() );
-
-            //bool condA = ( this->queueSet.find(neighbors[index]) == this->queueSet.end() );
-            //bool condB = ( this->historySet.find(neighbors[index]) == this->historySet.end() );
             
             if (condA and condB) {
                 cost = this->heuristic(neighbors[index]);
                 neighbors[index]->setParent(current);
                 neighbors[index]->setLevel(neighbors[index]->getParent()->getLevel() + 1);
                 neighbors[index]->setCost(cost + neighbors[index]->getLevel());
-                //neighbors[index]->toString();
                 
                 this->queue.push(neighbors[index]);
                 this->queueHash.insert(neighbors[index]->calcHash());
-                //this->queueSet.insert(neighbors[index]);
                 
                 if (*(this->goal) == neighbors[index]) {
                     this->isSolved = true;
@@ -161,7 +149,6 @@ bool Game::solve() {
                         steps.push_back(current->getMove());
                         current = current->getParent();
                     }
-                    //cout << "COUNT: " << count << endl;
                     return true;
                 }
             }
@@ -173,7 +160,6 @@ bool Game::solve() {
 
 bool Game::writeFile(bool _print) {
     ofstream outfile("output.txt", ofstream::out);
-
     if(this->isSolved) {
         if (_print) {cout << this->steps.size() << endl;}
         outfile << this->steps.size() << endl;
@@ -209,8 +195,11 @@ bool Game::writeFile(bool _print) {
  * Private Methods
  */
 
+
+/*
+ * Misplaced Tiles
+ */
 int Game::heuristicA(State *_state) {
-    // Misplaced Tiles
     int distance = 0, condA = 0, condB = 0;
     
     for (int row = 0; row < _state->getSize(); row++) {
@@ -227,9 +216,10 @@ int Game::heuristicA(State *_state) {
     return distance;
 }
 
-
+/*
+ * Manhattan Distance
+ */
 int Game::heuristicB(State *_state) {
-    // Manhattan Distance
     int distance = 0, calcA = 0, calcB = 0;
     
     for (int row = 0; row < _state->getSize(); row++) {
@@ -244,9 +234,10 @@ int Game::heuristicB(State *_state) {
     return distance;
 }
 
-
+/*
+ * 2 X Manhattan Distance
+ */
 int Game::heuristicC(State *_state) {
-    // 2 X Manhattan Distance
     int distance = 0, calcA = 0, calcB = 0;
     
     for (int row = 0; row < _state->getSize(); row++) {

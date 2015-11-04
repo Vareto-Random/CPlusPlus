@@ -63,7 +63,6 @@ State::State(int _size, const vector<string> _board) {
 
 
 State::~State() {
-    //cout << "State::~State invoked" << endl;
     this->deallocate();
 }
 
@@ -112,7 +111,6 @@ long State::calcHash() {
             }
         }
     }
-    
     this->hash = hashing(key);
     return this->hash;
 }
@@ -134,7 +132,6 @@ pair<int, int> State::getBlank() {
             }
         }
     }
-    
     return position;
 }
 
@@ -154,7 +151,6 @@ vector<int> State::getMoves(const int x, const int y) {
     if ((y > 0) and (y < this->size)) {
         moves.push_back(LEFT);
     }
-    
     return moves;
 }
 
@@ -192,7 +188,6 @@ vector<State *> State::getNeighbors() {
         }
         neighbors.push_back(neighbor);
     }
-    
     return neighbors;
 }
 
@@ -206,13 +201,11 @@ bool State::setBoard(const int _size, const int **_board) {
     if(this->size != _size) {
         return false;
     }
-    
     for (int row = 0; row < this->size; row++) {
         for (int col = 0; col < this->size; col++) {
             this->board[row][col] = _board[row][col];
         }
     }
-    
     return true;
 }
 
@@ -276,11 +269,9 @@ State& State::operator=(State *_state) {
         if (this->size != _state->getSize()) {
             this->deallocate();
         }
-        
         if (this->board == NULL) {
             this->allocate(_state->getSize());
         }
-        
         this->cost = _state->getCost();
         this->level = _state->getLevel();
         this->size = _state->getSize();
@@ -291,7 +282,6 @@ State& State::operator=(State *_state) {
             }
         }
     }
-    
     return (*this);
 }
 
@@ -314,15 +304,15 @@ bool State::allocate(int _size) {
     if ((_size <= 0) or (this->board != NULL)) {
         return false;
     }
-    
     this->board = new int* [_size];
     this->size = _size;
+    
     for (int index = 0; index < _size; index++) {
         this->board[index] = new int [_size];
     }
-    
     return true;
 }
+
 
 bool State::copy(int **_board) {
     for (int row = 0; row < this->size; row++) {
@@ -330,9 +320,9 @@ bool State::copy(int **_board) {
             this->board[row][col] = _board[row][col];
         }
     }
-    
     return true;
 }
+
 
 bool State::deallocate() {
     if (this->board != NULL) {
@@ -351,7 +341,6 @@ bool State::deallocate() {
         this->parent = NULL;
         this->size = 0;
     }
-    
     return true;
 }
 

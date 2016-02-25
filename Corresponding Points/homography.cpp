@@ -33,7 +33,7 @@ int main( int argc, char** argv )
 	}
 
 	//-- Step 1: Detect the keypoints using SURF Detector
-	int minHessian = 400;
+	int minHessian = 500;
 
 	//SurfFeatureDetector detector1( minHessian );
 	cv::Ptr<cv::Feature2D> sift = cv::xfeatures2d::SURF::create(minHessian);
@@ -76,7 +76,7 @@ int main( int argc, char** argv )
 
 	for( int i = 0; i < descriptors_object.rows; i++ )
 	{ 
-		if( matches[i].distance < 3*min_dist )
+		if( matches[i].distance < 2.5*min_dist )
 		{ 
 			good_matches.push_back( matches[i]); 
 		}
